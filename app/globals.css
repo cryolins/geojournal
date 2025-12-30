@@ -2,28 +2,41 @@
 
 @theme inline {
   --color-background: var(--background);
+  --color-backgroundlight: var(--backgroundlight);
+  --color-field: var(--field);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-txt: var(--text);
+  --color-good: var(--good);
+  --color-bad: var(--bad);
   --font-sans: var(--font-public-sans);
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    --text: #302312;
-    --foreground: #302312;
-    --background: #efe9dc;
+    --text: #69553b;
+    --foreground: #b8a48b;
+    --background: #e1d3c1;
+    --backgroundlight: #f9f4ec;
+    --field: #f3e9db;
     --primary: #57ea83;
     --secondary: #b3f4b3;
-    --accent: #37c862;
+    --good: #2dad53;
+    --bad: #a22a24;
   }
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #ede0cf;
-    --foreground: #ede0cf;
-    --background: #231d10;
+    --text: #f9f4ec;
+    --foreground: #b8a48b;
+    --background: #2e2a28;
+    --backgroundlight: #534c48;
+    --field: #f3e9db;
     --primary: #15a841;
     --secondary: #0b4c0b;
-    --accent: #37c862;
+    --good: #57ea83;
+    --bad: #f26868;
   }
 }
 
@@ -52,3 +65,19 @@ h4 {font-size: 1.777rem; /* 28.48px */}
 h5 {font-size: 1.333rem; /* 21.28px */}
 
 small {font-size: 0.750rem; /* 12px */}
+
+@utility input-field {
+  outline: 3px solid var(--foreground);
+  border-radius: var(--radius-lg);
+  background-color: var(--field);
+  align-items: center;
+  padding: calc(var(--spacing) * 2);
+}
+
+@utility contrast-text {
+  color: var(--color-neutral-900);
+  @media (prefers-color-scheme: dark) {
+    color: #f3e9db;
+  }
+}
+
