@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 const UserSchema = new Schema({
     username: { type: String, required: true, unique: true },
@@ -12,4 +12,4 @@ const UserSchema = new Schema({
     timestamps: true
 });
 
-export const User = model("User", UserSchema);
+export const User = models.User || model("User", UserSchema);

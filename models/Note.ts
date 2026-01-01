@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 const NoteSchema = new Schema({
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
@@ -15,4 +15,4 @@ const NoteSchema = new Schema({
     timestamps: true
 });
 
-export const Note = model("Note", NoteSchema);
+export const Note = models.Note || model("Note", NoteSchema);

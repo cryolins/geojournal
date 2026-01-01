@@ -1,14 +1,12 @@
 "use client";
+import { LoginInput } from "@/types/signin";
+import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-interface LoginInput{
-    userOrEmail: string
-    password: string
-};
 
 export default function Login() {
     const { register, handleSubmit, watch, formState: { isSubmitting, errors } } = useForm<LoginInput>();
-    const onSubmit: SubmitHandler<LoginInput> = (data) => (
+    const onSubmit: SubmitHandler<LoginInput> = async (data) => (
         console.log(data)
     );
 
@@ -31,7 +29,11 @@ export default function Login() {
                     </div>
                     <button type="submit" className="rounded-full contrast-text items-center justify-center w-2/5 py-3 bg-primary hover:bg-secondary transition-colors">
                         <h5 className="font-bold">Sign in{isSubmitting ? "..." : ""}</h5>
-                    </button>                    
+                    </button>   
+                    <p>
+                        Don't have an account? {" "}
+                        <Link href={"/signup"} className="contrast-text hover:underline">Sign up</Link>
+                    </p>                 
                 </form>
             </div>
         </div>

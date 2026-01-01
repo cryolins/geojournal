@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 const CategorySchema = new Schema({
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
@@ -8,4 +8,4 @@ const CategorySchema = new Schema({
 // category must be unique per user
 CategorySchema.index({ userId: 1, name: 1 }, { unique: true });
 
-export const Category = model("Category", CategorySchema);
+export const Category = models.Category || model("Category", CategorySchema);
