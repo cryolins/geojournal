@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Public_Sans, Coming_Soon } from "next/font/google";
 import "./globals.css";
+import { SessionProvider } from "@/components/SessionProvider";
 
 export const inter = Inter({
   variable: "--font-inter",
@@ -29,10 +30,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={``}
-      >
-        {children}
+      <body className={``}>
+        <SessionProvider>
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );
