@@ -8,6 +8,7 @@ export function LogoutButton () {
         console.log("clicked log out");
         //setIsSubmitting(true);
         await signOut({ callbackUrl: '/login' });
+        localStorage.setItem('logoutEvent', Date.now().toString());
     }
     return (
         <button className="flex items-center justify-center p-1 px-4 bg-bad rounded-full w-fit hover:bg-[#c04d47] transition-colors">

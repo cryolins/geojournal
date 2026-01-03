@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Public_Sans, Coming_Soon } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "@/components/SessionProvider";
+import { StorageListener } from "@/components/event-listeners";
 
 export const inter = Inter({
   variable: "--font-inter",
@@ -32,6 +33,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={``}>
         <SessionProvider>
+          <StorageListener/>
           {children}
         </SessionProvider>
       </body>
