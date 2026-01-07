@@ -15,4 +15,8 @@ const NoteSchema = new Schema({
     timestamps: true
 });
 
+// indexes to help search
+NoteSchema.index({ location: "2dsphere" });
+NoteSchema.index({ userId: 1, categories: 1 });
+
 export const Note = models.Note || model("Note", NoteSchema);

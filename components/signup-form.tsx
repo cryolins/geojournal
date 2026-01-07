@@ -37,7 +37,7 @@ export default function SignupForm() {
     const onSubmit: SubmitHandler<SignupInput> = async (inp) => {
         //console.log(data)
         try {
-            const res = await fetch("/api/signup", {
+            const res = await fetch("/api/users", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(inp),
