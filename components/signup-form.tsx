@@ -1,6 +1,6 @@
 "use client";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { SignupInput } from "@/interfaces/signin";
+import { SignupInput } from "@/interfaces/user-input";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -76,7 +76,7 @@ export default function SignupForm() {
                             {errors.email ? <p role="alert" className="mt-1 text-bad">{errors.email.message}</p> : null}
                         </div>
                         <div className="flex flex-col w-full">
-                            <input {...register("password", passwordOptions)} placeholder="Password" className="input-field w-full" type="password" autoComplete="current-password"/>
+                            <input {...register("password", passwordOptions)} placeholder="Password" className="input-field w-full" type="password" autoComplete="new-password"/>
                             {errors.password ? <p role="alert" className="mt-1 text-bad">{errors.password.message}</p> : null}
                         </div>
                         <div className="flex flex-col w-full">

@@ -45,5 +45,5 @@ export const editUserRequestSchema = z.object({
     name: z.string().optional(),
     email: z.email().optional(),
     newPassword: z.string().min(8).optional(),
-    oldPassword: z.string().min(8)
+    oldPassword: z.string()
 });

@@ -1,6 +1,6 @@
 "use client";
 import { signIn } from "next-auth/react";
-import { LoginInput } from "@/interfaces/signin";
+import { LoginInput } from "@/interfaces/user-input";
 import Link from "next/link";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";

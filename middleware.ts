@@ -16,7 +16,7 @@ export default async function authMiddleware (req: NextRequest) {
 
     const token = await getToken({ req, secret: SECRET });
     const nextPath = req.nextUrl.pathname;
-    console.log(token);
+    //console.log(token);
 
     if (!token && protPaths.includes(nextPath)) {
         // trying to access protected paths without logging in -> redirect to login page
