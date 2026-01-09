@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { SignupInput } from "@/interfaces/user-input";
 import Link from "next/link";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 
 export default function SignupForm() {
     const { register, handleSubmit, watch, formState: { isSubmitting, errors } } = useForm<SignupInput>();
@@ -42,15 +43,19 @@ export default function SignupForm() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(inp),
             });
-            const resData = await res.json();
+            const resData: any = await res.json();
             if (res.status == 409) {
                 setSubmitMsg(resData.message);
             } else if (!res.ok) {
                 console.log(resData.message);
                 setSubmitMsg("Error signing up, please try again.");
             } else {
-                setSubmitMsg("");
-                console.log(resData); // TODO
+                await signIn("credentials", {
+                    userOrEmail: inp.username,
+                    password: inp.password,
+                    redirectTo: "/map",
+                });
+                setSubmitMsg("Account created but error while logging in.");
             }
             
         } catch (error) {
