@@ -1,6 +1,6 @@
 "use client";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { LogoutButton } from "./auth-buttons";
+import { LogoutButton } from "./auth/auth-buttons";
 import { EditInput } from "@/interfaces/user-input";
 import { useState } from "react";
 import { useMounted } from "./use-mounted";

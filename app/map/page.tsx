@@ -1,4 +1,4 @@
-import { LogoutButton } from "@/components/auth-buttons";
+import { LogoutButton } from "@/components/auth/auth-buttons";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
@@ -7,7 +7,6 @@ export default async function MapPage() {
     
     if (!session) {
         // fallback case when signed out from another tab
-        <p>bye</p>
         redirect("/login");
     }
     

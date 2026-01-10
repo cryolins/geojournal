@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Public_Sans, Coming_Soon } from "next/font/google";
 import "./globals.css";
-import { SessionProvider } from "@/components/SessionProvider";
+import { SessionProvider } from "@/components/auth/SessionProvider";
 import { StorageListener } from "@/components/event-listeners";
 
 export const inter = Inter({
