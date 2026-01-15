@@ -11,7 +11,7 @@ export function LogoutButton () {
         localStorage.setItem('logoutEvent', Date.now().toString());
     }
     return (
-        <button onClick={logoutClick} className="flex items-center justify-center p-1 px-4 bg-bad rounded-full w-fit hover:bg-[#c04d47] transition-colors">
+        <button onClick={logoutClick} className="flex items-center justify-center p-1 px-4 bg-bad rounded-full w-fit hover:bg-badmed transition-colors">
             <h6 className="contrast-text font-bold">Log out{/*isSubmitting ? "..." : ""*/}</h6>
         </button>
     );

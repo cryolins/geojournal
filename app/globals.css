@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+@import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
+@import "leaflet-defaulticon-compatibility";
 
 @theme inline {
   --color-background: var(--background);
@@ -10,7 +13,13 @@
   --color-txt: var(--text);
   --color-good: var(--good);
   --color-bad: var(--bad);
+  --color-badmed: #c04d47;
   --font-sans: var(--font-public-sans);
+}
+
+@theme {
+  --note-menu-x-size: 2.5rem;
+  --note-menu-title-gap: 0.25rem;
 }
 
 @media (prefers-color-scheme: light) {
@@ -52,6 +61,53 @@ h1, h2, h3, h4, h5 {
   font-weight: 700;
 }
 
+div, p {
+  font-family: 'Public Sans';
+}
+
+textarea {
+  field-sizing: content;
+}
+
+/* leaflet component stylings */
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+}
+
+.leaflet-popup-content-wrapper {
+  background-color: var(--background);
+}
+
+.leaflet-popup-tip {
+  background-color: var(--background);
+}
+
+/* for note menu */
+.note-menu-title-gap {
+  gap: var(--note-menu-title-gap);
+}
+
+.note-menu-x-size {
+  width: clamp(var(--note-menu-x-size), var(--note-menu-x-size), var(--note-menu-x-size));
+  height: clamp(var(--note-menu-x-size), var(--note-menu-x-size), var(--note-menu-x-size));
+}
+
+.note-menu-title-grow {
+  width: calc(100% - var(--note-menu-x-size) - var(--note-menu-title-gap));
+  max-width: calc(100% - var(--note-menu-x-size) - var(--note-menu-title-gap));
+}
+
+.ease-reciprocal {
+  transition-timing-function: cubic-bezier(1,0,1,0);
+}
+
+[type=checkbox] {
+  appearance: none;
+}
+
 html {font-size: 100%;} /* 16px */
 
 h1 {font-size: 4.210rem; /* 67.36px */}
@@ -74,10 +130,35 @@ small {font-size: 0.750rem; /* 12px */}
   padding: calc(var(--spacing) * 2);
 }
 
+@utility category-card {
+  outline: 2px solid var(--foreground);
+  border-radius: calc(infinity * 1px);
+  background-color: var(--field);
+  align-items: center;
+  padding: calc(var(--spacing) * 1);
+}
+
 @utility contrast-text {
   color: var(--color-neutral-900);
   @media (prefers-color-scheme: dark) {
     color: #f3e9db;
   }
+}
+
+@utility fit-pill-button {
+  align-items: center;
+  justify-content: center;
+  padding-inline: calc(var(--spacing) * 2);
+  padding-block: calc(var(--spacing) * 1);
+  border-radius: calc(infinity * 1px);
+  
+}
+
+@utility dropdown-triangle {
+  width: 0;
+  height: 0;
+  border-left: 0.5rem solid transparent;
+  border-right: 0.5rem solid transparent;
+  border-bottom: 0.5rem solid var(--color-foreground);
 }
 

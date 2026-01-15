@@ -1,6 +1,8 @@
 import { LogoutButton } from "@/components/auth/auth-buttons";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import { APIButton } from "@/components/test-buttons";
+import MapClientWrapper from "@/components/map/map-client-wrapper";
 
 export default async function MapPage() {
     const session = await auth();
@@ -11,9 +13,8 @@ export default async function MapPage() {
     }
     
     return (
-        <div className="flex flex-col gap-2">
-            <p>hi, {JSON.stringify(session)}</p>
-            <LogoutButton/>
+        <div className="flex flex-col gap-2 h-screen max-h-screen relative">
+            <MapClientWrapper />
         </div>
     )
 }

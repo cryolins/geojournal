@@ -2,8 +2,8 @@ import { z } from 'zod';
 
 // for note api's POST
 export const noteRequestSchema = z.object({
-    title: z.string().nullable(),
-    body: z.string().nullable(),
+    title: z.string().max(60, "title too long (>60 chars)").nullable(),
+    body: z.string().max(2500, "body too long (>2500 chars)").nullable(),
     imageLinks: z.array(z.string()),
     categoryIds: z.array(z.string()),
     lng: z.number().min(-180, "invalid longitude").max(180, "invalid longitude"),
@@ -12,7 +12,7 @@ export const noteRequestSchema = z.object({
 
 // for note api's PUT
 export const optionalNoteRequestSchema = z.object({
-    title: z.string().nullable().optional(),
+    title: z.string().max(60, "title too long (>60 chars)").nullable().optional(),
     body: z.string().nullable().optional(),
     imageLinks: z.array(z.string()).optional(),
     categoryIds: z.array(z.string()).optional(),
