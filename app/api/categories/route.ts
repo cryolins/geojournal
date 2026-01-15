@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
         // auth check
         const session = await auth();
         if(!session){
-            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+            return NextResponse.json({ status: "error", message: "Unauthorized" }, { status: 401 });
         }
         
         // building db query
@@ -22,10 +22,10 @@ export async function GET(req: NextRequest) {
         await connectDB();
         const foundNotes = await Category.find(dbQuery).lean();
         
-        return NextResponse.json(foundNotes, { status: 200 });
+        return NextResponse.json({ status: "success", resData: foundNotes }, { status: 200 });
 
     } catch (error) {
-        return NextResponse.json({ message: `Error getting categories: ${error}` }, { status: 500 });
+        return NextResponse.json({ status: "error", message: `Error getting categories: ${error}` }, { status: 500 });
     }
 }
 
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
         // auth check
         const session = await auth();
         if(!session){
-            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+            return NextResponse.json({ status: "error", message: "Unauthorized" }, { status: 401 });
         }
 
         // get and validate request data
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
         const zodResult = categoryRequestSchema.safeParse(reqData);
         if (!zodResult.success) {
             return NextResponse.json(
-                { message: `Invalid body. Error: ${zodResult.error.message}` }, { status: 400 }
+                { status: "error", message: `Invalid body. Error: ${zodResult.error.message}` }, { status: 400 }
             );
         }
         const categoryData = zodResult.data;
@@ -56,9 +56,9 @@ export async function POST(req: NextRequest) {
             color: categoryData.color
         });
 
-        return NextResponse.json(category, { status: 201 });
+        return NextResponse.json({ status: "success", resData: category }, { status: 201 });
         
     } catch (error) {
-        return NextResponse.json({ message: `Error creating category: ${error}` }, { status: 500 });
+        return NextResponse.json({ status: "error", message: `Error creating category: ${error}` }, { status: 500 });
     }
 }

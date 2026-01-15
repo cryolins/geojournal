@@ -14,10 +14,10 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         // otherwise, verifyResult is the id
         await connectDB();
         const foundNote = await Note.findById(verifyResult).lean(); // find it again
-        return NextResponse.json(foundNote, { status: 200 });
+        return NextResponse.json({ status: "success", resData: foundNote }, { status: 200 });
 
     } catch (error) {
-        return NextResponse.json({ message: `Error getting note: ${error}` }, { status: 500 });
+        return NextResponse.json({ status: "error", message: `Error getting note: ${error}` }, { status: 500 });
     }
 }
 
@@ -33,7 +33,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
         const zodResult = optionalNoteRequestSchema.safeParse(reqData);
         if (!zodResult.success) {
             return NextResponse.json(
-                { message: `Invalid body. Error: ${zodResult.error.message}` }, { status: 400 }
+                { status: "error", message: `Invalid body. Error: ${zodResult.error.message}` }, { status: 400 }
             );
         }
 
@@ -46,16 +46,16 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
             const updatedNote = await Note.findByIdAndUpdate(verifyResult, noteData, 
                 { new: true, runValidators: true, lean: true });
             if (!updatedNote) {
-                return NextResponse.json({ message: "Note not found" }, { status: 404 });
+                return NextResponse.json({ status: "error", message: "Note not found" }, { status: 404 });
             }
-            return NextResponse.json(updatedNote, { status: 200 });
+            return NextResponse.json({ status: "success", resData: updatedNote }, { status: 200 });
         } catch (error) {
-            return NextResponse.json({ message: "Invalid update" }, { status: 400 });
+            return NextResponse.json({ status: "error", message: "Invalid update" }, { status: 400 });
         }
         
         
     } catch (error) {
-        return NextResponse.json({ message: `Error updating note: ${error}` }, { status: 500 });
+        return NextResponse.json({ status: "error", message: `Error updating note: ${error}` }, { status: 500 });
     }
     
 }
@@ -70,14 +70,14 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
         try {
             const deletedNote = await Note.findByIdAndDelete(verifyResult, { lean: true });
             if (!deletedNote) {
-                return NextResponse.json({ message: "Note not found" }, { status: 404 });
+                return NextResponse.json({ status: "error", message: "Note not found" }, { status: 404 });
             }
-            return NextResponse.json({ message: "Successfully deleted note" }, { status: 200 });
+            return NextResponse.json({ status: "success", resData: "Successfully deleted note" }, { status: 200 });
         } catch (error) {
-            return NextResponse.json({ message: "Invalid delete" }, { status: 400 });
+            return NextResponse.json({ status: "error", message: "Invalid delete" }, { status: 400 });
         }
 
     } catch (error) {
-        return NextResponse.json({ message: `Error deleting note: ${error}` }, { status: 500 });
+        return NextResponse.json({ status: "error", message: `Error deleting note: ${error}` }, { status: 500 });
     }
 }

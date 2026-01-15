@@ -1,4 +1,5 @@
 import { CategoryData, NoteData } from "@/interfaces/data";
+import { APIResponseData } from "@/interfaces/responses";
 import { LatLng } from "leaflet";
 import { Dispatch, SetStateAction } from "react";
 
@@ -43,11 +44,11 @@ export async function fetchNotes(setNotes: Dispatch<SetStateAction<Map<string, N
             method: "GET",
             headers: { "Content-Type": "application/json" },
         });
-        const resData: any = await res.json();
-        if (!res.ok) {
+        const resData: APIResponseData<NoteData[]> = await res.json();
+        if (resData.status === "error") {
             console.error(resData.message);
         } else {
-            setNotes(new Map(resData.map((note: NoteData) => [note._id, note])));
+            setNotes(new Map(resData.resData.map((note) => [note._id, note])));
         }
         
     } catch (error) {
@@ -61,11 +62,11 @@ export async function fetchCategories(setCategories: Dispatch<SetStateAction<Map
             method: "GET",
             headers: { "Content-Type": "application/json" },
         });
-        const resData: any = await res.json();
-        if (!res.ok) {
+        const resData: APIResponseData<CategoryData[]> = await res.json();
+        if (resData.status === "error") {
             console.error(resData.message);
         } else {
-            setCategories(new Map(resData.map((category: CategoryData) => [category._id, category])));
+            setCategories(new Map(resData.resData.map((category) => [category._id, category])));
         }
         
     } catch (error) {

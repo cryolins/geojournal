@@ -14,9 +14,9 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         // otherwise, verifyResult is the id
         await connectDB();
         const foundCategory = await Category.findById(verifyResult).lean(); // find it again
-        return NextResponse.json(foundCategory, { status: 200 });
+        return NextResponse.json({ status: "success", resData: foundCategory }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ message: `Error getting category: ${error}` }, { status: 500 });
+        return NextResponse.json({ status: "error", message: `Error getting category: ${error}` }, { status: 500 });
     }
 }
 
@@ -32,7 +32,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
         const zodResult = optionalCategoryRequestSchema.safeParse(reqData);
         if (!zodResult.success) {
             return NextResponse.json(
-                { message: `Invalid body. Error: ${zodResult.error.message}` }, { status: 400 }
+                { status: "error", message: `Invalid body. Error: ${zodResult.error.message}` }, { status: 400 }
             );
         }
         const categoryData = zodResult.data;
@@ -41,15 +41,15 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
             const updatedCategory = await Category.findByIdAndUpdate(verifyResult, categoryData, 
                 { new: true, runValidators: true, lean: true });
             if (!updatedCategory) {
-                return NextResponse.json({ message: "Category not found" }, { status: 404 });
+                return NextResponse.json({ status: "error", message: "Category not found" }, { status: 404 });
             }
-            return NextResponse.json(updatedCategory, { status: 200 });
+            return NextResponse.json({ status: "success", resData: updatedCategory }, { status: 200 });
         } catch (error) {
-            return NextResponse.json({ message: "Invalid update" }, { status: 400 });
+            return NextResponse.json({ status: "error", message: "Invalid update" }, { status: 400 });
         }   
         
     } catch (error) {
-        return NextResponse.json({ message: `Error updating category: ${error}` }, { status: 500 });
+        return NextResponse.json({ status: "error", message: `Error updating category: ${error}` }, { status: 500 });
     }
 }
 
@@ -63,14 +63,14 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
         try {
             const deletedCategory = await Category.findByIdAndDelete(verifyResult, { lean: true });
             if (!deletedCategory) {
-                return NextResponse.json({ message: "Category not found" }, { status: 404 });
+                return NextResponse.json({ status: "error", message: "Category not found" }, { status: 404 });
             }
-            return NextResponse.json({ message: "Successfully deleted category" }, { status: 200 });
+            return NextResponse.json({ status: "success", resData: "Successfully deleted category" }, { status: 200 });
         } catch (error) {
-            return NextResponse.json({ message: "Invalid delete" }, { status: 400 });
+            return NextResponse.json({ status: "error", message: "Invalid delete" }, { status: 400 });
         }
 
     } catch (error) {
-        return NextResponse.json({ message: `Error deleting category: ${error}` }, { status: 500 });
+        return NextResponse.json({ status: "error", message: `Error deleting category: ${error}` }, { status: 500 });
     }
 }

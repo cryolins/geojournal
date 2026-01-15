@@ -8,7 +8,7 @@ export async function verifyUser(params: Promise<{ id: string }>, Schema: Model<
         // auth check
         const session = await auth();
         if(!session){
-            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+            return NextResponse.json({ status: "error", message: "Unauthorized" }, { status: 401 });
         }
         const id = (await params).id;
         
@@ -17,18 +17,18 @@ export async function verifyUser(params: Promise<{ id: string }>, Schema: Model<
         const foundEntry = await Schema.findById(id).lean();
 
         if (!foundEntry) {
-            return NextResponse.json({ message: `${name} not found` }, { status: 404 });
+            return NextResponse.json({ status: "error", message: `${name} not found` }, { status: 404 });
         }
 
         // verify user id
         if (session.user.id != foundEntry.userId) {
             return NextResponse.json(
-                { message: `User does not have access to this ${name}` },
+                { status: "error", message: `User does not have access to this ${name}` },
                 { status: 403 }
             );
         }
         return id;
     } catch (error) {
-        return NextResponse.json({ message: `Error getting ${name}: ${error}` }, { status: 500 });
+        return NextResponse.json({ status: "error", message: `Error getting ${name}: ${error}` }, { status: 500 });
     }
 }

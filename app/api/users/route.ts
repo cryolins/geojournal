@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
         // auth check
         const session = await auth();
         if (!session) {
-            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+            return NextResponse.json({ status: "error", message: "Unauthorized" }, { status: 401 });
         }
 
         const foundUser = await User.findById(session.user.id).lean();
@@ -21,10 +21,10 @@ export async function GET(req: NextRequest) {
             return NextResponse.redirect(new URL("/login", req.url));
         }
 
-        return NextResponse.json(foundUser, { status: 200})
+        return NextResponse.json({ status: "success", resData: foundUser }, { status: 200})
 
     } catch (error) {
-        return NextResponse.json({ message: `Error getting user: ${error}` }, { status: 500 });
+        return NextResponse.json({ status: "error", message: `Error getting user: ${error}` }, { status: 500 });
     }
 }
 
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
         const zodResult = signupRequestSchema.safeParse(reqData);
         if (!zodResult.success) {
             return NextResponse.json(
-                { message: `Invalid body. Error: ${zodResult.error.message}` }, { status: 400 }
+                { status: "error", message: `Invalid body. Error: ${zodResult.error.message}` }, { status: 400 }
             );
         }
         const signupInput = zodResult.data;
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
         const existingEmailUser = await User.findOne({ email: signupInput.email });
         if(existingEmailUser) {
             return NextResponse.json(
-                { message: "User with this email already exists" },
+                { status: "error", message: "User with this email already exists" },
                 { status: 409 }
             );
         }
@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
         const existingNameUser = await User.findOne({ username: signupInput.username });
         if(existingNameUser) {
             return NextResponse.json(
-                { message: "This username is already taken" },
+                { status: "error", message: "This username is already taken" },
                 { status: 409 }
             );
         }
@@ -72,12 +72,12 @@ export async function POST(req: NextRequest) {
 
         const createdUser = await User.findOne({ username: signupInput.username });
         return NextResponse.json(
-            createdUser,
+            { status: "success", resData: createdUser },
             { status: 201 }
         );
 
     } catch (error) {
-        return NextResponse.json({ message: `Error creating user: ${error}` }, { status: 500 });
+        return NextResponse.json({ status: "error", message: `Error creating user: ${error}` }, { status: 500 });
     }
 }
 
@@ -86,7 +86,7 @@ export async function PUT(req: NextRequest) {
         // auth check
         const session = await auth();
         if (!session) {
-            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+            return NextResponse.json({ status: "error", message: "Unauthorized" }, { status: 401 });
         }
 
         // getting and validating data
@@ -94,7 +94,7 @@ export async function PUT(req: NextRequest) {
         const zodResult = editUserRequestSchema.safeParse(reqData);
         if (!zodResult.success) {
             return NextResponse.json(
-                { message: `Invalid body. Error: ${zodResult.error.message}` }, { status: 400 }
+                { status: "error", message: `Invalid body. Error: ${zodResult.error.message}` }, { status: 400 }
             );
         }
         const updateInput = zodResult.data;
@@ -110,7 +110,7 @@ export async function PUT(req: NextRequest) {
         // compare password
         const isValidPassword = await bcrypt.compare(updateInput.oldPassword, user.password);
         if (!isValidPassword) {
-            return NextResponse.json({ message: "Invalid password" }, { status: 401 });
+            return NextResponse.json({ status: "error", message: "Invalid password" }, { status: 401 });
         }
         
         const hashedNewPassword = updateInput.newPassword ? await bcrypt.hash(updateInput.newPassword, 10) : undefined;
@@ -125,10 +125,10 @@ export async function PUT(req: NextRequest) {
             },
             { new: true, runValidators: true, lean: true }
         ).lean();
-        return NextResponse.json(updatedUser, { status: 200 });
+        return NextResponse.json({ status: "success", resData: updatedUser }, { status: 200 });
 
     } catch (error) {
-        return NextResponse.json({ message: `Error updating user: ${error}` }, { status: 500 });
+        return NextResponse.json({ status: "error", message: `Error updating user: ${error}` }, { status: 500 });
     }
 }
 
@@ -137,7 +137,7 @@ export async function DELETE(req: NextRequest) {
         // auth check
         const session = await auth();
         if (!session) {
-            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+            return NextResponse.json({ status: "error", message: "Unauthorized" }, { status: 401 });
         }
 
         await User.findByIdAndDelete(session.user.id, { lean: true });
@@ -145,11 +145,11 @@ export async function DELETE(req: NextRequest) {
         await Category.deleteMany({ userId: session.user.id });
 
         return NextResponse.json(
-            { message: `Successfully deleted user ${session.user.id} and their notes and categories`},
+            { status: "success", resData: `Successfully deleted user ${session.user.id} and their notes and categories`},
             { status: 200 }
         );
 
     } catch (error) {
-        return NextResponse.json({ message: `Error deleting user: ${error}` }, { status: 500 });
+        return NextResponse.json({ status: "error", message: `Error deleting user: ${error}` }, { status: 500 });
     }
 }

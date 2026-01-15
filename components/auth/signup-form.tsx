@@ -4,6 +4,8 @@ import { SignupInput } from "@/interfaces/user-input";
 import Link from "next/link";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
+import { APIResponseData } from "@/interfaces/responses";
+import { UserData } from "@/interfaces/data";
 
 export default function SignupForm() {
     const { register, handleSubmit, watch, formState: { isSubmitting, errors } } = useForm<SignupInput>();
@@ -43,10 +45,10 @@ export default function SignupForm() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(inp),
             });
-            const resData: any = await res.json();
-            if (res.status == 409) {
+            const resData: APIResponseData<UserData> = await res.json();
+            if (res.status == 409 && resData.status === "error") {
                 setSubmitMsg(resData.message);
-            } else if (!res.ok) {
+            } else if (resData.status === "error") {
                 console.log(resData.message);
                 setSubmitMsg("Error signing up, please try again.");
             } else {

@@ -3,6 +3,7 @@ import { CategoryData, NoteData } from "@/interfaces/data"
 import { ChangeEventHandler, Dispatch, FocusEventHandler, MouseEventHandler, SetStateAction, useEffect, useState } from "react"
 import { LuPlus, LuX } from "react-icons/lu";
 import { CategoryDropdown } from "./category-dropdown";
+import { APIResponseData } from "@/interfaces/responses";
 
 
 interface NoteMenuProps{
@@ -53,16 +54,16 @@ export default function NoteMenu({
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
             });
-            const resData: any = await res.json();
+            const resData: APIResponseData<NoteData> = await res.json();
 
-            if (!res.ok) {
+            if (resData.status === "error") {
                 setSaveErrored(true);
                 console.error(res);
                 return;
             }
 
             // setting updated note data to currData
-            const updatedData: NoteData = resData;
+            const updatedData = resData.resData;
             setCurrNote(prev => updatedData);
             setIsSaved(true);
 

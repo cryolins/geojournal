@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
         // auth check
         const session = await auth();
         if(!session){
-            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+            return NextResponse.json({ status: "error", message: "Unauthorized" }, { status: 401 });
         }
 
         // building db query
@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
             const neLat = parseFloat(searchParams.get("neLat")!);
             const neLng = parseFloat(searchParams.get("neLng")!);
             if ([swLat, swLng, neLat, neLng].some(isNaN)) {
-                return NextResponse.json({ message: "Invalid map bounds" }, { status: 400 });
+                return NextResponse.json({ status: "error", message: "Invalid map bounds" }, { status: 400 });
             }
 
             dbQuery.location = {
@@ -53,10 +53,10 @@ export async function GET(req: NextRequest) {
         await connectDB();
         const foundNotes = await Note.find(dbQuery).lean();
         
-        return NextResponse.json(foundNotes, { status: 200 });
+        return NextResponse.json({ status: "success", resData: foundNotes }, { status: 200 });
         
     } catch (error) {
-        return NextResponse.json({ message: `Error getting notes: ${error}` }, { status: 500 });
+        return NextResponse.json({ status: "error", message: `Error getting notes: ${error}` }, { status: 500 });
     }
     
 }
@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
         // auth check
         const session = await auth();
         if(!session){
-            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+            return NextResponse.json({ status: "error", message: "Unauthorized" }, { status: 401 });
         }
 
         // get and validate request data
@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
         const zodResult = noteRequestSchema.safeParse(reqData);
         if (!zodResult.success) {
             return NextResponse.json(
-                { message: `Invalid body. Error: ${zodResult.error.message}` }, { status: 400 }
+                { status: "error", message: `Invalid body. Error: ${zodResult.error.message}` }, { status: 400 }
             );
         }
         const noteData = zodResult.data;
@@ -94,9 +94,9 @@ export async function POST(req: NextRequest) {
             },
         });
 
-        return NextResponse.json(note, { status: 201 });
+        return NextResponse.json({ status: "success", resData: note }, { status: 201 });
         
     } catch (error) {
-        return NextResponse.json({ message: `Error creating note: ${error}` }, { status: 500 });
+        return NextResponse.json({ status: "error", message: `Error creating note: ${error}` }, { status: 500 });
     }
 }

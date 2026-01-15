@@ -18,8 +18,6 @@ export function CategoryDropdown({ currNote, setCurrNote, categories, setIsSaved
             const categoryId = e.currentTarget.id;
             if (!currNote) { return }
             const noteInCategory = currNote.categoryIds.includes(categoryId)
-            console.log(noteInCategory);
-            console.log(categoryId);
 
             // if note in category clicked, then remove it, otherwise add it
             if (noteInCategory) {

@@ -15,6 +15,11 @@ export interface CategoryData{
     color: string
 }
 
-export interface ErrorResponse{
-    message: string
+export interface UserData{
+    _id: string
+    email: string
+    name: string
+    username: string
+    createdAt: string
+    updatedAt: string
 }

@@ -20,7 +20,6 @@ export default function MapHooks({
         click: (e) => {
             if (isNoteMoving) {
                 setIsNoteMoving(false);
-                console.log(currNote);
                 if (currNote) {
                     const newCoords: [number, number] = [e.latlng.lat, e.latlng.lng];
                     setCurrNote({

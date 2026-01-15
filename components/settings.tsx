@@ -6,6 +6,8 @@ import { useState } from "react";
 import { useMounted } from "./use-mounted";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { APIResponseData } from "@/interfaces/responses";
+import { UserData } from "@/interfaces/data";
 
 interface EditFormProps{
     username: string
@@ -89,15 +91,16 @@ export function EditForm({ username, name, email }: EditFormProps) {
                     username, name, email, newPassword, oldPassword
                 })
             });
-            const resData: any = await res.json();
+            const resData: APIResponseData<UserData> = await res.json();
             if (res.status == 401) {
                 setSubmitMsg({ message: "Invalid password", ok: "bad" });
-            } else if (!res.ok) {
+            } else if (resData.status === "error") {
                 setSubmitMsg({ message: "Error updating details, please try again", ok: "bad" });
                 console.error(resData.message);
             } else {
+                const resUser = resData.resData;
                 await update({ 
-                    username: resData.username, name: resData.name, email: resData.email
+                    username: resUser.username, name: resUser.name, email: resUser.email
                  });
                  setSubmitMsg({ message: "Success!", ok: "good" });
             }
