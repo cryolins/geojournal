@@ -1,36 +1,28 @@
 "use client";
 import { CategoryData, NoteData } from "@/interfaces/data"
-import { ChangeEventHandler, Dispatch, FocusEventHandler, MouseEventHandler, SetStateAction, useEffect, useState } from "react"
+import { ChangeEventHandler, Dispatch, FocusEventHandler, MouseEventHandler, SetStateAction, useContext, useEffect, useState } from "react"
 import { LuPlus, LuX } from "react-icons/lu";
 import { CategoryDropdown } from "./category-dropdown";
 import { APIResponseData } from "@/interfaces/responses";
-
-
-interface NoteMenuProps{
-    currNote?: NoteData
-    setCurrNote: Dispatch<SetStateAction<NoteData | undefined>>
-    isSaved: boolean
-    setIsSaved: Dispatch<SetStateAction<boolean>>
-    isNoteMoving: boolean
-    setIsNoteMoving: Dispatch<SetStateAction<boolean>>
-    categories: Map<string, CategoryData>
-    notes: Map<string, NoteData>
-    setNotes: Dispatch<SetStateAction<Map<string, NoteData>>>
-}
+import { MapStatesContext } from "./map";
 
 interface NoteFields{
     title: string
     body: string
 }
 
-export default function NoteMenu({ 
-    currNote, setCurrNote, isSaved, setIsSaved, isNoteMoving, setIsNoteMoving, categories, notes, setNotes
- }: NoteMenuProps) {
+export default function NoteMenu() {
     const [titleLength, setTitleLength] = useState(0);
     const [bodyLength, setBodyLength] = useState(0);
     const [showCatDropdown, setShowCatDropdown] = useState(false);
     const [saveErrored, setSaveErrored] = useState(false);
     
+    // getting MapStatesContext
+    const {
+        currNote, setCurrNote, isSaved, setIsSaved, isNoteMoving, setIsNoteMoving, 
+        categories, setCategories, notes, setNotes
+    } = useContext(MapStatesContext);
+
     const dateCreated = currNote ? new Date(currNote?.createdAt) : new Date();
     
     const setUnsaved = () => setIsSaved(false);
@@ -214,13 +206,12 @@ export default function NoteMenu({
                             );
                         }
                     )}
-                    <button onClick={() => setShowCatDropdown(prev => !prev)}
+                    <div onClick={() => setShowCatDropdown(prev => !prev)}
                             className="flex flex-row fit-pill-button w-auto gap-1 relative bg-primary hover:bg-secondary font-semibold contrast-text">
                         <LuPlus />
-                        <p>Add category</p>
-                        <CategoryDropdown currNote={currNote} setCurrNote={setCurrNote} categories={categories} setIsSaved={setIsSaved}
-                                            showDropdown={showCatDropdown} setShowDropdown={setShowCatDropdown}/>
-                    </button>
+                        <p className="cursor-default">Add category</p>
+                        <CategoryDropdown showDropdown={showCatDropdown} setShowDropdown={setShowCatDropdown}/>
+                    </div>
                 </div>
                 
                 {/* image container (placeholder) */}

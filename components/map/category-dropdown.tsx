@@ -1,42 +1,51 @@
 import { CategoryData, NoteData } from "@/interfaces/data";
-import { Dispatch, MouseEventHandler, SetStateAction } from "react";
+import { Dispatch, MouseEventHandler, SetStateAction, useContext } from "react";
+import { MapStatesContext } from "./map";
 
 
 interface dropdownProps{
-    currNote?: NoteData 
-    setCurrNote: Dispatch<SetStateAction<NoteData | undefined>>
-    categories: Map<string, CategoryData>
-    setIsSaved: Dispatch<SetStateAction<boolean>>
     showDropdown: boolean 
     setShowDropdown: Dispatch<SetStateAction<boolean>>
 }
 
-export function CategoryDropdown({ currNote, setCurrNote, categories, setIsSaved, showDropdown, setShowDropdown }: dropdownProps) {
+export function CategoryDropdown({ showDropdown, setShowDropdown }: dropdownProps) {
 
-        const handleCategoryClick: MouseEventHandler<HTMLInputElement> = (e) => {
-            setIsSaved(false);
-            const categoryId = e.currentTarget.id;
-            if (!currNote) { return }
-            const noteInCategory = currNote.categoryIds.includes(categoryId)
+    // getting MapStatesContext
+    const {
+        currNote, setCurrNote, isSaved, setIsSaved, isNoteMoving, setIsNoteMoving, 
+        categories, setCategories, notes, setNotes
+    } = useContext(MapStatesContext);
 
-            // if note in category clicked, then remove it, otherwise add it
-            if (noteInCategory) {
-                const updatedIds = currNote.categoryIds.filter(id => id !== categoryId);
-                setCurrNote({...currNote, categoryIds: updatedIds});
-            } else {
-                const updatedIds = [...currNote.categoryIds, categoryId];
-                setCurrNote({...currNote, categoryIds: updatedIds});
-            }
-            
+    const handleCategoryClick: MouseEventHandler<HTMLInputElement> = (e) => {
+        setIsSaved(false);
+        const categoryId = e.currentTarget.id;
+        if (!currNote) { return }
+        const noteInCategory = currNote.categoryIds.includes(categoryId)
+
+        // if note in category clicked, then remove it, otherwise add it
+        if (noteInCategory) {
+            const updatedIds = currNote.categoryIds.filter(id => id !== categoryId);
+            setCurrNote({...currNote, categoryIds: updatedIds});
+        } else {
+            const updatedIds = [...currNote.categoryIds, categoryId];
+            setCurrNote({...currNote, categoryIds: updatedIds});
         }
+        
+    }
 
     return (
         <div className={`flex flex-col items-center w-40 max-w-40 h-32 absolute top-9 rounded-sm bg-field border-solid border-foreground 
                         transition-all duration-200 ${showDropdown ? "max-h-32 p-1 border-2" : "max-h-0" }`}
-                        onClick={(e) => e.stopPropagation()}>
+                        onClick={(e) => e.stopPropagation()}> {/* size scaling container */}
+            
+            {/* opacity scaling container */}
             <div className={`flex flex-col w-full h-full overflow-x-hidden overflow-y-auto
                             transition-opacity ease-reciprocal duration-200 ${currNote ? "opacity-100" : "opacity-0"}`}
                 onBlur={() => setShowDropdown(false)}>
+                
+                
+
+                {/* categories listed */}
                 {Array.from(categories.values()).map((category) => {
                     const noteInCategory = currNote?.categoryIds.includes(category._id) ?? false;
 
