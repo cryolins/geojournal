@@ -15,20 +15,20 @@ export const optionalNoteRequestSchema = z.object({
     title: z.string().max(60, "title too long (>60 chars)").nullable().optional(),
     body: z.string().nullable().optional(),
     imageLinks: z.array(z.string()).optional(),
-    categoryIds: z.array(z.string()).optional(),
+    categoryIds: z.array(z.string()).optional(),    
     lng: z.number().min(-180, "invalid longitude").max(180, "invalid longitude").optional(),
     lat: z.number().min(-90, "invalid latitude").max(90, "invalid latitude").optional()
 });
 
 // for category api's POST
 export const categoryRequestSchema = z.object({
-    name: z.string(),
+    name: z.string().max(30, "category name too long (>30 chars)"),
     color: z.string().regex(/^#([0-9a-f]{3}){1,2}$/i, "Invalid hex code").optional()
 });
 
 // for category api's PUT
 export const optionalCategoryRequestSchema = z.object({
-    name: z.string().optional(),
+    name: z.string().max(30, "category name too long (>30 chars)").optional(),
     color: z.string().regex(/^#([0-9a-f]{3}){1,2}$/i, "Invalid hex code").optional()
 });
 

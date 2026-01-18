@@ -1,6 +1,8 @@
 import { CategoryData, NoteData } from "@/interfaces/data";
-import { Dispatch, MouseEventHandler, SetStateAction, useContext } from "react";
+import { Dispatch, MouseEventHandler, SetStateAction, useContext, useEffect, useState } from "react";
+import { LuPlus } from "react-icons/lu";
 import { MapStatesContext } from "./map";
+import { CategoryEditor } from "./category-editor";
 
 
 interface dropdownProps{
@@ -9,11 +11,11 @@ interface dropdownProps{
 }
 
 export function CategoryDropdown({ showDropdown, setShowDropdown }: dropdownProps) {
+    const [showEditor, setShowEditor] = useState(false);
 
     // getting MapStatesContext
     const {
-        currNote, setCurrNote, isSaved, setIsSaved, isNoteMoving, setIsNoteMoving, 
-        categories, setCategories, notes, setNotes
+        currNote, setCurrNote, setIsSaved, categories
     } = useContext(MapStatesContext);
 
     const handleCategoryClick: MouseEventHandler<HTMLInputElement> = (e) => {
@@ -33,17 +35,32 @@ export function CategoryDropdown({ showDropdown, setShowDropdown }: dropdownProp
         
     }
 
+    // update editor showing based on showDropdown when it updates
+    useEffect(() => {
+        setShowEditor(prev => (prev && showDropdown));
+    }, [showDropdown]);
+
     return (
-        <div className={`flex flex-col items-center w-40 max-w-40 h-32 absolute top-9 rounded-sm bg-field border-solid border-foreground 
+        <div className={`items-center w-40 max-w-40 h-32 absolute top-9 rounded-sm bg-field border-solid border-foreground 
                         transition-all duration-200 ${showDropdown ? "max-h-32 p-1 border-2" : "max-h-0" }`}
                         onClick={(e) => e.stopPropagation()}> {/* size scaling container */}
             
             {/* opacity scaling container */}
             <div className={`flex flex-col w-full h-full overflow-x-hidden overflow-y-auto
-                            transition-opacity ease-reciprocal duration-200 ${currNote ? "opacity-100" : "opacity-0"}`}
-                onBlur={() => setShowDropdown(false)}>
+                            transition-opacity ease-reciprocal duration-200 ${showDropdown ? "opacity-100" : "opacity-0"}`}
+                >
                 
-                
+                {/* new category button */}
+                <div className="flex w-full max-w-full h-fit justify-center items-center">
+                    <button className="flex flex-row fit-pill-button w-auto gap-1 relative bg-primary hover:bg-secondary"
+                            onClick={() => setShowEditor(prev => !prev)}>
+                        <LuPlus className="contrast-text" />
+                        <p className="font-semibold contrast-text cursor-default">New</p>
+                    </button>
+                </div>
+
+                {/* category editor */}
+                {showEditor && <CategoryEditor absPosString="top-32.5 -left-0.5" categoryId="" showEditor={showEditor} setShowEditor={setShowEditor}/>}
 
                 {/* categories listed */}
                 {Array.from(categories.values()).map((category) => {

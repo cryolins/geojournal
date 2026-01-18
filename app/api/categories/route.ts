@@ -50,6 +50,15 @@ export async function POST(req: NextRequest) {
         // connect to db
         await connectDB();
 
+        // checking if duplicate user/name combo exists
+        const foundCategory = await Category.findOne({ userId: session.user.id, name: categoryData.name }).lean();
+        if(foundCategory) {
+            return NextResponse.json(
+                { status: "error", message: "Error: duplicate name" },
+                { status: 409 }
+            );
+        }
+
         const category = await Category.create({
             userId: session.user.id,
             name: categoryData.name,

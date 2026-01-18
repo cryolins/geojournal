@@ -20,6 +20,7 @@
 @theme {
   --note-menu-x-size: 2.5rem;
   --note-menu-title-gap: 0.25rem;
+  --cate-edit-x-size: 1.5rem;
 }
 
 @media (prefers-color-scheme: light) {
@@ -100,6 +101,11 @@ textarea {
   max-width: calc(100% - var(--note-menu-x-size) - var(--note-menu-title-gap));
 }
 
+/* for category-editor */
+.cate-edit-x-size {
+  width: clamp(var(--cate-edit-x-size), var(--cate-edit-x-size), var(--cate-edit-x-size));
+  height: clamp(var(--cate-edit-x-size), var(--cate-edit-x-size), var(--cate-edit-x-size));
+}
 .ease-reciprocal {
   transition-timing-function: cubic-bezier(1,0,1,0);
 }

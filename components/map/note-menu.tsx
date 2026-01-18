@@ -207,9 +207,9 @@ export default function NoteMenu() {
                         }
                     )}
                     <div onClick={() => setShowCatDropdown(prev => !prev)}
-                            className="flex flex-row fit-pill-button w-auto gap-1 relative bg-primary hover:bg-secondary font-semibold contrast-text">
-                        <LuPlus />
-                        <p className="cursor-default">Add category</p>
+                            className="flex flex-row fit-pill-button w-auto gap-1 relative bg-primary hover:bg-secondary">
+                        <LuPlus className="contrast-text" />
+                        <p className="font-semibold contrast-text cursor-default">Add category</p>
                         <CategoryDropdown showDropdown={showCatDropdown} setShowDropdown={setShowCatDropdown}/>
                     </div>
                 </div>
