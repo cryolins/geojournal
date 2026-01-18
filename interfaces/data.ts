@@ -23,3 +23,8 @@ export interface UserData{
     createdAt: string
     updatedAt: string
 }
+
+export interface SubmitMsg{
+    message: string
+    ok: "good" | "bad"
+}

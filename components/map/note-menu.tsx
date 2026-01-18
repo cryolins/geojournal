@@ -119,6 +119,7 @@ export default function NoteMenu() {
 
         setTitleLength(newTitleString.length);
         setBodyLength(newBodyString.length);
+        setSaveErrored(false);
     }, [currNote]);
 
     // details to change only when switching, not updating notes

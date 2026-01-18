@@ -10,6 +10,7 @@ import { LatLng } from 'leaflet';
 import { LuPlus } from 'react-icons/lu';
 import NoteMenu from './note-menu';
 import { SettingsButton } from '../page-buttons';
+import { MapNavbar } from './map-navbar';
 
 // context for states
 type MapStatesContextType = {
@@ -111,10 +112,7 @@ export default function MapComponent() {
 
                         {/* "ghost note" for if current note has updated, unsaved position */}
                         {(currNote && hasDiffLocation(currNote, notes.get(currNote._id))) &&
-                            <Marker 
-                                opacity={0.6}
-                                position={currNote.location.coordinates} 
-                            >
+                            <Marker opacity={0.6} position={currNote.location.coordinates}>
                                 <Tooltip>{`unsaved: ${currNote.title}`}</Tooltip>
                             </Marker>
                         }
@@ -135,7 +133,7 @@ export default function MapComponent() {
 
                     </MapContainer>
                     
-                    <SettingsButton />
+                    <MapNavbar />
                 </div>
             </div>
         </MapStatesContext>

@@ -7,17 +7,12 @@ import { useMounted } from "./use-mounted";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { APIResponseData } from "@/interfaces/responses";
-import { UserData } from "@/interfaces/data";
+import { SubmitMsg, UserData } from "@/interfaces/data";
 
 interface EditFormProps{
     username: string
     name: string
     email: string
-}
-
-interface SubmitMsg{
-    message: string
-    ok: "good" | "bad"
 }
 
 export function Profile() {

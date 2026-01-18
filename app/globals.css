@@ -168,3 +168,14 @@ small {font-size: 0.750rem; /* 12px */}
   border-bottom: 0.5rem solid var(--color-foreground);
 }
 
+@utility bg-border-frame {
+  background-color: var(--background);
+  outline: 2px solid var(--foreground);
+
+  &:hover {
+      @media (hover: hover) {
+          background-color: var(--backgroundlight);
+      }
+  }
+}
+

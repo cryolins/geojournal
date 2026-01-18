@@ -1,6 +1,6 @@
 import { ChangeEventHandler, Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
 import { MapStatesContext } from "./map";
-import { CategoryData } from "@/interfaces/data";
+import { CategoryData, SubmitMsg } from "@/interfaces/data";
 import { LuX } from "react-icons/lu";
 import { APIResponseData } from "@/interfaces/responses";
 
@@ -18,7 +18,7 @@ export function CategoryEditor({ absPosString, categoryId, showEditor, setShowEd
     // get context
     const { categories, setCategories } = useContext(MapStatesContext);
     const [currCategory, setCurrCategory] = useState<CategoryData>(blankCategory);
-    const [errorMsg, setErrorMsg] = useState<string>("");
+    const [submitMsg, setSubmitMsg] = useState<SubmitMsg>({ message: "", ok: "bad" });
 
     // get category on mount
     useEffect(() => {
@@ -29,7 +29,7 @@ export function CategoryEditor({ absPosString, categoryId, showEditor, setShowEd
     // handle name change
     const handleNameChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
         setCurrCategory({...currCategory, name: e.target.value});
-        setErrorMsg("");
+        setSubmitMsg({ message: "", ok: "bad" });
 
     };
 
@@ -53,9 +53,9 @@ export function CategoryEditor({ absPosString, categoryId, showEditor, setShowEd
 
             if (resData.status === "error") {
                 if (res.status == 409) {
-                    setErrorMsg(resData.message);
+                    setSubmitMsg({ message: resData.message, ok: "bad" });
                 } else {
-                    setErrorMsg("Error submitting. Please try again.");
+                    setSubmitMsg({ message: "Error submitting. Please try again.", ok: "bad" });
                 }
                 return;
             }
@@ -73,7 +73,10 @@ export function CategoryEditor({ absPosString, categoryId, showEditor, setShowEd
                 )
             );
 
+            setSubmitMsg({ message: "Success!", ok: "good" });
+
         } catch (error) {
+            setSubmitMsg({ message: "Error submitting. Please try again.", ok: "bad" });
             console.error(error);
         }
     }
@@ -101,9 +104,6 @@ export function CategoryEditor({ absPosString, categoryId, showEditor, setShowEd
                             onChange={handleNameChange}/>
                 <p className="text-foreground text-sm">{`${currCategory.name.length}/30`}</p>
             </div>
-
-            {/* error message */}
-            {errorMsg && <p className="text-[#a22a24] text-xs">{errorMsg}</p>}
             
             {/* color picker */}
             <div className="flex flex-row w-full justify-between">
@@ -111,6 +111,9 @@ export function CategoryEditor({ absPosString, categoryId, showEditor, setShowEd
                 <input type="color" id="selectColor" defaultValue={currCategory.color} 
                     onChange={(e) => setCurrCategory({...currCategory, color: e.target.value})}/>
             </div>
+
+            {/* error message */}
+            {submitMsg && <p className={`${submitMsg.ok ? "text-[#2dad53]" : "text-[#a22a24]"} text-xs`}>{submitMsg.message}</p>}
             
             {/* save button */}
             <button onClick={handleSave} className="fit-pill-button bg-primary hover:bg-secondary font-semibold contrast-text">
