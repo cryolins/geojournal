@@ -70,6 +70,10 @@ textarea {
   field-sizing: content;
 }
 
+button {
+  cursor: pointer;
+}
+
 /* leaflet component stylings */
 
 .leaflet-container {
@@ -138,7 +142,7 @@ small {font-size: 0.750rem; /* 12px */}
 
 @utility category-card {
   outline: 2px solid var(--foreground);
-  border-radius: calc(infinity * 1px);
+  border-radius: var(--radius-2xl);
   background-color: var(--field);
   align-items: center;
   padding: calc(var(--spacing) * 1);

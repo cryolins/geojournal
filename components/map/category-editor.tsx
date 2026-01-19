@@ -6,7 +6,6 @@ import { APIResponseData } from "@/interfaces/responses";
 
 
 interface CategorEditorProps{
-    absPosString: string // string for the absolute pos of the editor to its parent
     categoryId: string // id for the category being edited: empty string means new category
     showEditor: boolean
     setShowEditor: Dispatch<SetStateAction<boolean>>
@@ -14,7 +13,7 @@ interface CategorEditorProps{
 
 const blankCategory: CategoryData = { _id: "", name: "", color: "#7f7f7f" };
 
-export function CategoryEditor({ absPosString, categoryId, showEditor, setShowEditor }: CategorEditorProps) {    
+export function CategoryEditor({ categoryId, showEditor, setShowEditor }: CategorEditorProps) {    
     // get context
     const { categories, setCategories } = useContext(MapStatesContext);
     const [currCategory, setCurrCategory] = useState<CategoryData>(blankCategory);
@@ -82,8 +81,7 @@ export function CategoryEditor({ absPosString, categoryId, showEditor, setShowEd
     }
 
     return (
-        <div className={`flex flex-col items-center justify-center w-40 max-w-40 h-fit p-1 gap-1 rounded-sm bg-field border-2 border-solid border-foreground
-                        absolute ${absPosString}`}
+        <div className="flex flex-col items-center justify-center w-40 max-w-40 h-fit p-1 gap-1 rounded-sm bg-field border-2 border-solid border-foreground"
             onClick={(e) => e.stopPropagation()}>
             
             {/* title and X button */}
@@ -113,7 +111,7 @@ export function CategoryEditor({ absPosString, categoryId, showEditor, setShowEd
             </div>
 
             {/* error message */}
-            {submitMsg && <p className={`${submitMsg.ok ? "text-[#2dad53]" : "text-[#a22a24]"} text-xs`}>{submitMsg.message}</p>}
+            {submitMsg && <p className={`${(submitMsg.ok === "good") ? "text-[#2dad53]" : "text-[#a22a24]"} text-xs`}>{submitMsg.message}</p>}
             
             {/* save button */}
             <button onClick={handleSave} className="fit-pill-button bg-primary hover:bg-secondary font-semibold contrast-text">

@@ -73,9 +73,9 @@ export default function MapComponent() {
 
     return (
         <MapStatesContext value={contextValue}>
-            <div className="flex flex-row items-center justify-center w-full h-full">
+            <div className="flex flex-col-reverse sm:flex-row items-center justify-center w-full h-fit sm:h-full">
                 <NoteMenu />
-                <div className="flex items-center justify-center w-full h-full max-h-full max-w-full relative">
+                <div className="flex items-center justify-center w-full min-h-[60vh] sm:min-h-full h-full max-h-full max-w-full relative">
                     <MapContainer center={initialCoords} zoom={13} zoomControl={false}>
 
                         {/* tile layer for openstreetmap credit */}

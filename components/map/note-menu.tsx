@@ -24,6 +24,7 @@ export default function NoteMenu() {
     } = useContext(MapStatesContext);
 
     const dateCreated = currNote ? new Date(currNote?.createdAt) : new Date();
+    const dateUpdated = currNote ? new Date(currNote?.createdAt) : new Date();
     
     const setUnsaved = () => setIsSaved(false);
     const handleSave = async () => {
@@ -72,6 +73,24 @@ export default function NoteMenu() {
             setSaveErrored(true);
             console.error(error);
         }
+    }
+
+    // handler for category dropdown menu's checkboxes click
+    const handleCategoryClick: MouseEventHandler<HTMLInputElement> = (e) => {
+        setIsSaved(false);
+        const categoryId = e.currentTarget.id;
+        if (!currNote) { return }
+        const noteInCategory = currNote.categoryIds.includes(categoryId)
+
+        // if note in category clicked, then remove it, otherwise add it
+        if (noteInCategory) {
+            const updatedIds = currNote.categoryIds.filter(id => id !== categoryId);
+            setCurrNote({...currNote, categoryIds: updatedIds});
+        } else {
+            const updatedIds = [...currNote.categoryIds, categoryId];
+            setCurrNote({...currNote, categoryIds: updatedIds});
+        }
+        
     }
 
     // special onClick functions
@@ -176,10 +195,15 @@ export default function NoteMenu() {
                     </div>
                 </div>
 
-                {/* time created */}
-                <h6 className="contrast-text font-semibold" hidden={!currNote}>
-                    {`Created: ${dateCreated?.toLocaleDateString()} (${dateCreated?.toLocaleTimeString()})`}
-                </h6>
+                {/* time created and updated */}
+                <div>
+                    <h6 className="contrast-text font-semibold" hidden={!currNote}>
+                        {`Created: ${dateCreated?.toLocaleDateString()} (${dateCreated?.toLocaleTimeString()})`}
+                    </h6>
+                    <h6 className="contrast-text font-semibold" hidden={!currNote}>
+                        {`Last updated: ${dateUpdated?.toLocaleDateString()} (${dateUpdated?.toLocaleTimeString()})`}
+                    </h6>
+                </div>
                 
                 {/* location container */}
                 <div className="flex flex-row w-full justify-between items-center" hidden={!currNote}>
@@ -200,18 +224,21 @@ export default function NoteMenu() {
                             }
 
                             return (
-                                <div className="flex flex-row category-card w-auto gap-1" key={category._id}>
-                                    <div className={`rounded-full w-3 h-3 border-neutral-900 border-solid border`} style={{ backgroundColor: category.color }}></div>
-                                    <p className="text-neutral-900">{category.name}</p>
+                                <div className="flex flex-row category-card w-fit max-w-full h-fit gap-1" key={category._id}>
+                                    <div className={`rounded-full w-3 min-w-3 h-3 border-neutral-900 border-solid border`} style={{ backgroundColor: category.color }}></div>
+                                    <p className="text-neutral-900 w-fit max-w-full h-fit mr-0.5 wrap-break-word">{category.name}</p>
                                 </div>
                             );
                         }
                     )}
-                    <div onClick={() => setShowCatDropdown(prev => !prev)}
-                            className="flex flex-row fit-pill-button w-auto gap-1 relative bg-primary hover:bg-secondary">
-                        <LuPlus className="contrast-text" />
-                        <p className="font-semibold contrast-text cursor-default">Add category</p>
-                        <CategoryDropdown showDropdown={showCatDropdown} setShowDropdown={setShowCatDropdown}/>
+                    <div className="flex relative w-fit h-fit justify-center items-center">
+                        <button onClick={() => setShowCatDropdown(prev => !prev)}
+                                className="flex flex-row fit-pill-button w-auto gap-1 bg-primary hover:bg-secondary">
+                            <LuPlus className="contrast-text" />
+                            <p className="font-semibold contrast-text cursor-pointer">Add category</p>
+                        </button>
+                        <CategoryDropdown showDropdown={showCatDropdown} setShowDropdown={setShowCatDropdown} 
+                                          handleCategoryClick={handleCategoryClick} defaultHeight="8rem"/>
                     </div>
                 </div>
                 
