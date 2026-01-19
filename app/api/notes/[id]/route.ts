@@ -11,9 +11,11 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
             return verifyResult;
         }
 
-        // otherwise, verifyResult is the id
+        const { id } = verifyResult;
+
+        // otherwise, use id
         await connectDB();
-        const foundNote = await Note.findById(verifyResult).lean(); // find it again
+        const foundNote = await Note.findById(id).lean(); // find it again
         return NextResponse.json({ status: "success", resData: foundNote }, { status: 200 });
 
     } catch (error) {
@@ -27,6 +29,8 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
         if (verifyResult instanceof NextResponse) {
             return verifyResult;
         }
+
+        const { id } = verifyResult;
 
         // get and validate request data
         const reqData = await req.json();
@@ -43,7 +47,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
         const noteData = { title, body, imageLinks, categoryIds, location }
 
         try {
-            const updatedNote = await Note.findByIdAndUpdate(verifyResult, noteData, 
+            const updatedNote = await Note.findByIdAndUpdate(id, noteData, 
                 { new: true, runValidators: true, lean: true });
             if (!updatedNote) {
                 return NextResponse.json({ status: "error", message: "Note not found" }, { status: 404 });
@@ -66,9 +70,11 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
         if (verifyResult instanceof NextResponse) {
             return verifyResult;
         }
+
+        const { id } = verifyResult;
         
         try {
-            const deletedNote = await Note.findByIdAndDelete(verifyResult, { lean: true });
+            const deletedNote = await Note.findByIdAndDelete(id, { lean: true });
             if (!deletedNote) {
                 return NextResponse.json({ status: "error", message: "Note not found" }, { status: 404 });
             }

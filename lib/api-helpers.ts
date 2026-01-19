@@ -27,7 +27,7 @@ export async function verifyUser(params: Promise<{ id: string }>, Schema: Model<
                 { status: 403 }
             );
         }
-        return id;
+        return { id: id, userId: session.user.id };
     } catch (error) {
         return NextResponse.json({ status: "error", message: `Error getting ${name}: ${error}` }, { status: 500 });
     }

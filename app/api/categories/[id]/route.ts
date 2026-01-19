@@ -11,9 +11,11 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
             return verifyResult;
         }
 
-        // otherwise, verifyResult is the id
+        const { id } = verifyResult;
+
+        // use id
         await connectDB();
-        const foundCategory = await Category.findById(verifyResult).lean(); // find it again
+        const foundCategory = await Category.findById(id).lean(); // find it again
         return NextResponse.json({ status: "success", resData: foundCategory }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ status: "error", message: `Error getting category: ${error}` }, { status: 500 });
@@ -27,6 +29,8 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
             return verifyResult;
         }
 
+        const { id, userId } = verifyResult;
+
         // get and validate request data
         const reqData = await req.json();
         const zodResult = optionalCategoryRequestSchema.safeParse(reqData);
@@ -38,7 +42,17 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
         const categoryData = zodResult.data;
 
         try {
-            const updatedCategory = await Category.findByIdAndUpdate(verifyResult, categoryData, 
+            // checking if duplicate user/name combo exists
+            const foundCategory = await Category.findOne({ userId, name: categoryData.name }).lean();
+            if(foundCategory) {
+                return NextResponse.json(
+                    { status: "error", message: "Error: duplicate name" },
+                    { status: 409 }
+                );
+            }
+            
+            // updating otherwise
+            const updatedCategory = await Category.findByIdAndUpdate(id, categoryData, 
                 { new: true, runValidators: true, lean: true });
             if (!updatedCategory) {
                 return NextResponse.json({ status: "error", message: "Category not found" }, { status: 404 });
@@ -59,9 +73,11 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
         if (verifyResult instanceof NextResponse) {
             return verifyResult;
         }
+
+        const { id } = verifyResult;
         
         try {
-            const deletedCategory = await Category.findByIdAndDelete(verifyResult, { lean: true });
+            const deletedCategory = await Category.findByIdAndDelete(id, { lean: true });
             if (!deletedCategory) {
                 return NextResponse.json({ status: "error", message: "Category not found" }, { status: 404 });
             }
