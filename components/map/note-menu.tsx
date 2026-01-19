@@ -1,7 +1,7 @@
 "use client";
 import { CategoryData, NoteData } from "@/interfaces/data"
 import { ChangeEventHandler, Dispatch, FocusEventHandler, MouseEventHandler, SetStateAction, useContext, useEffect, useState } from "react"
-import { LuPlus, LuX } from "react-icons/lu";
+import { LuPlus, LuTrash2, LuX } from "react-icons/lu";
 import { CategoryDropdown } from "./category-dropdown";
 import { APIResponseData } from "@/interfaces/responses";
 import { MapStatesContext } from "./map";
@@ -24,7 +24,7 @@ export default function NoteMenu() {
     } = useContext(MapStatesContext);
 
     const dateCreated = currNote ? new Date(currNote?.createdAt) : new Date();
-    const dateUpdated = currNote ? new Date(currNote?.createdAt) : new Date();
+    const dateUpdated = currNote ? new Date(currNote?.updatedAt) : new Date();
     
     const setUnsaved = () => setIsSaved(false);
     const handleSave = async () => {
@@ -75,12 +75,44 @@ export default function NoteMenu() {
         }
     }
 
+    // handler for deleting the current note
+    const handleDelete = async () => {
+        if (currNote && currNote._id) {
+            try {
+                const res = await fetch(`/api/notes/${currNote._id}`, {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" },
+                });
+                const resData: APIResponseData<string> = await res.json();
+                if (resData.status === "error") {
+                    console.error(`Error: ${resData.message}`);
+                } else {
+                    console.log(resData.resData);
+
+                    // remove from client side
+                    setNotes(prevMap =>
+                        new Map(
+                            [...prevMap.entries()].filter(
+                                (entry) => entry[0] !== currNote._id
+                            )
+                        )
+                    );
+                    setCurrNote(undefined);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
+            setCurrNote(undefined);
+        }
+    }
+
     // handler for category dropdown menu's checkboxes click
     const handleCategoryClick: MouseEventHandler<HTMLInputElement> = (e) => {
         setIsSaved(false);
         const categoryId = e.currentTarget.id;
         if (!currNote) { return }
-        const noteInCategory = currNote.categoryIds.includes(categoryId)
+        const noteInCategory = currNote.categoryIds.includes(categoryId);
 
         // if note in category clicked, then remove it, otherwise add it
         if (noteInCategory) {
@@ -91,6 +123,11 @@ export default function NoteMenu() {
             setCurrNote({...currNote, categoryIds: updatedIds});
         }
         
+    }
+
+    // function to check if category dropdown's category should be checked
+    const isCategoryChecked = (category: CategoryData) => {
+        return currNote?.categoryIds.includes(category._id) ?? false;
     }
 
     // special onClick functions
@@ -164,7 +201,7 @@ export default function NoteMenu() {
                             transition-opacity ease-reciprocal duration-400 ${currNote ? "opacity-100" : "opacity-0"}`}>
 
                 {/* key details sticky container */}
-                <div className="flex flex-col w-full px-2 py-1 mb-1 rounded-xl sticky top-1 bg-background contrast-text shadow-md shadow-background" 
+                <div className="flex flex-col w-full px-2 py-1 mb-1 rounded-xl sticky top-1 bg-background contrast-text shadow-md shadow-background z-50" 
                         hidden={!currNote} onClick={stopActionsAndPropagation}>
                     
                     {/* title and X button */}
@@ -238,7 +275,8 @@ export default function NoteMenu() {
                             <p className="font-semibold contrast-text cursor-pointer">Add category</p>
                         </button>
                         <CategoryDropdown showDropdown={showCatDropdown} setShowDropdown={setShowCatDropdown} 
-                                          handleCategoryClick={handleCategoryClick} defaultHeight="8rem"/>
+                                          handleCategoryClick={handleCategoryClick} isCategoryChecked={isCategoryChecked} 
+                                          defaultHeight="8rem" defaultWidth="10rem"/>
                     </div>
                 </div>
                 
@@ -252,6 +290,16 @@ export default function NoteMenu() {
                             onChange={handleBodyChange} onBlur={handleBodyBlur}/>
                     <p className="w-full text-right text-foreground text-sm">{`${bodyLength}/2500`}</p>
                 </div>
+                
+                {/* delete button */}
+                <div className="flex w-full max-w-full h-fit justify-center items-center my-1" hidden={!currNote}>
+                    <button className="flex flex-row fit-pill-button w-auto gap-1 bg-bad hover:bg-badmed"
+                            onClick={handleDelete}>
+                        <LuTrash2 className="contrast-text" />
+                        <p className="font-semibold contrast-text text-sm">Delete Note</p>
+                    </button>
+                </div>
+
             </div>
         </div>
     );

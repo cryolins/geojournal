@@ -2,6 +2,7 @@ import { optionalCategoryRequestSchema } from "@/interfaces/requests";
 import { verifyUser } from "@/lib/api-helpers";
 import { connectDB } from "@/lib/db";
 import { Category } from "@/models/Category";
+import { Note } from "@/models/Note";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -43,7 +44,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
         try {
             // checking if duplicate user/name combo exists
-            const foundCategory = await Category.findOne({ userId, name: categoryData.name }).lean();
+            const foundCategory = await Category.findOne({ userId, name: categoryData.name, _id: { $ne: id } }).lean();
             if(foundCategory) {
                 return NextResponse.json(
                     { status: "error", message: "Error: duplicate name" },
@@ -74,7 +75,10 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
             return verifyResult;
         }
 
-        const { id } = verifyResult;
+        const { id, userId } = verifyResult;
+
+        // remove category from all notes that contain it
+        await Note.updateMany({ userId, categoryIds: id }, { $pull: { categoryIds: id }});
         
         try {
             const deletedCategory = await Category.findByIdAndDelete(id, { lean: true });

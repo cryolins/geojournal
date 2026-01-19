@@ -24,6 +24,10 @@ type MapStatesContextType = {
     setCategories: Dispatch<SetStateAction<Map<string, CategoryData>>>
     notes: Map<string, NoteData>
     setNotes: Dispatch<SetStateAction<Map<string, NoteData>>>
+    keptCategoryIds: string[]
+    setKeptCategoryIds: Dispatch<SetStateAction<string[]>>
+    showAllNotes: boolean
+    setShowAllNotes: Dispatch<SetStateAction<boolean>>
 }
 
 export const MapStatesContext = createContext<MapStatesContextType>({
@@ -36,7 +40,11 @@ export const MapStatesContext = createContext<MapStatesContextType>({
     categories: new Map<string, CategoryData>(),
     setCategories: () => {},
     notes: new Map<string, NoteData>(),
-    setNotes: () => {}
+    setNotes: () => {},
+    keptCategoryIds: [],
+    setKeptCategoryIds: () => {},
+    showAllNotes: true,
+    setShowAllNotes: () => {}
 });
 
 export default function MapComponent() {
@@ -48,18 +56,21 @@ export default function MapComponent() {
     const [currNote, setCurrNote] = useState<NoteData>();
     const [isSaved, setIsSaved] = useState(true);
     const [isNoteMoving, setIsNoteMoving] = useState<boolean>(false);
+    const [keptCategoryIds, setKeptCategoryIds] = useState<string[]>([]); // for filtering
+    const [showAllNotes, setShowAllNotes] = useState(true); // filtering type too
 
     // context value now that the states have been created
     const contextValue = {
         currNote, setCurrNote, isSaved, setIsSaved, isNoteMoving, setIsNoteMoving, 
-        categories, setCategories, notes, setNotes
+        categories, setCategories, notes, setNotes, keptCategoryIds, setKeptCategoryIds,
+        showAllNotes, setShowAllNotes
     };
 
     // map setup on mount
     useEffect(() => {
         getUserLocation(setInitialCoords);
         fetchNotes(setNotes);
-        fetchCategories(setCategories);
+        fetchCategories(setCategories, setKeptCategoryIds);
     }, []);
     
     // receive location permissions before loading map
@@ -75,7 +86,7 @@ export default function MapComponent() {
         <MapStatesContext value={contextValue}>
             <div className="flex flex-col-reverse sm:flex-row items-center justify-center w-full h-fit sm:h-full">
                 <NoteMenu />
-                <div className="flex items-center justify-center w-full min-h-[60vh] sm:min-h-full h-full max-h-full max-w-full relative">
+                <div className="flex items-center justify-center w-full min-h-[75vh] sm:min-h-full h-full max-h-full max-w-full relative">
                     <MapContainer center={initialCoords} zoom={13} zoomControl={false}>
 
                         {/* tile layer for openstreetmap credit */}
@@ -93,7 +104,13 @@ export default function MapComponent() {
                                     isNoteMoving={isNoteMoving} setIsNoteMoving={setIsNoteMoving} />
 
                         {/* set of loaded notes */}
-                        {Array.from(notes?.values()).map((note) => (
+                        {Array.from(notes?.values())
+                            .filter((note) => 
+                                showAllNotes || note.categoryIds.some(
+                                    (cid) => keptCategoryIds.includes(cid)
+                                )
+                            )
+                            .map((note) => (
                             <Marker 
                                 position={note.location.coordinates} 
                                 key={note._id}
@@ -124,7 +141,8 @@ export default function MapComponent() {
                                     <div className="font-public-sans">
                                         {clickedCoords.lat.toFixed(6)},<br/>{clickedCoords.lng.toFixed(6)}
                                     </div>
-                                    <button onClick={(e) => addNewNote(setCurrNote, clickedCoords)} className="flex flex-row items-center justify-center p-2 gap-x-1 rounded-lg bg-primary hover:bg-secondary transition-colors">
+                                    <button onClick={(e) => addNewNote(setCurrNote, clickedCoords)} 
+                                            className="flex flex-row items-center justify-center p-2 gap-x-1 rounded-lg bg-primary hover:bg-secondary transition-colors">
                                         <LuPlus className="w-full h-full aspect-square" />
                                         <h6 className="font-semibold">Add Note</h6>
                                     </button>

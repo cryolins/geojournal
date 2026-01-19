@@ -56,7 +56,8 @@ export async function fetchNotes(setNotes: Dispatch<SetStateAction<Map<string, N
     }
 }
 
-export async function fetchCategories(setCategories: Dispatch<SetStateAction<Map<string, CategoryData>>>) {
+export async function fetchCategories(setCategories: Dispatch<SetStateAction<Map<string, CategoryData>>>, 
+                                      setKeptCategoryIds: Dispatch<SetStateAction<string[]>>) {
     try {
         const res = await fetch("/api/categories", {
             method: "GET",
@@ -67,6 +68,7 @@ export async function fetchCategories(setCategories: Dispatch<SetStateAction<Map
             console.error(resData.message);
         } else {
             setCategories(new Map(resData.resData.map((category) => [category._id, category])));
+            setKeptCategoryIds(resData.resData.map((category) => category._id));
         }
         
     } catch (error) {

@@ -19,11 +19,12 @@ export function CategoryEditor({ categoryId, showEditor, setShowEditor }: Catego
     const [currCategory, setCurrCategory] = useState<CategoryData>(blankCategory);
     const [submitMsg, setSubmitMsg] = useState<SubmitMsg>({ message: "", ok: "bad" });
 
-    // get category on mount
+    // get category on mount or id change
     useEffect(() => {
         const foundCategory = categories.get(categoryId);
         setCurrCategory(curr => (foundCategory ?? curr));
-    }, []);
+        setSubmitMsg({ message: "", ok: "bad" });
+    }, [categoryId]);
 
     // handle name change
     const handleNameChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
@@ -81,12 +82,12 @@ export function CategoryEditor({ categoryId, showEditor, setShowEditor }: Catego
     }
 
     return (
-        <div className="flex flex-col items-center justify-center w-40 max-w-40 h-fit p-1 gap-1 rounded-sm bg-field border-2 border-solid border-foreground"
+        <div className="flex flex-col items-center justify-center w-40 max-w-40 h-fit p-1 gap-1 rounded-sm bg-background border-2 border-solid border-foreground"
             onClick={(e) => e.stopPropagation()}>
             
             {/* title and X button */}
             <div className="flex flex-row w-full align-top gap-1 mb-1">
-                <h6 className="flex flex-col grow h-auto font-semibold text-neutral-900">
+                <h6 className="flex flex-col grow h-auto font-semibold contrast-text">
                     {currCategory._id ? "Edit category" : "Add Category"}
                 </h6>
                 <button onClick={() => setShowEditor(false)}
@@ -97,25 +98,27 @@ export function CategoryEditor({ categoryId, showEditor, setShowEditor }: Catego
             
             {/* category name text area */}
             <div className="flex flex-row w-full max-w-full gap-1 items-center">
-                <textarea className="w-full max-w-full resize-none h-fit border-b border-solid text-neutral-900" 
+                <textarea className="w-full max-w-full resize-none h-fit border-b border-solid contrast-text" 
                             id="name-ce" maxLength={30} placeholder="Name" defaultValue={currCategory.name} 
                             onChange={handleNameChange}/>
                 <p className="text-foreground text-sm">{`${currCategory.name.length}/30`}</p>
             </div>
             
             {/* color picker */}
-            <div className="flex flex-row w-full justify-between">
-                <label htmlFor="selectColor" className="text-neutral-900 font-semibold">Color:</label>
-                <input type="color" id="selectColor" defaultValue={currCategory.color} 
-                    onChange={(e) => setCurrCategory({...currCategory, color: e.target.value})}/>
-            </div>
+            {showEditor &&
+                <div className="flex flex-row w-full justify-between">
+                    <label htmlFor="selectColor" className="contrast-text font-semibold">Color:</label>
+                    <input type="color" id="selectColor" value={currCategory.color} 
+                        onChange={(e) => setCurrCategory({...currCategory, color: e.target.value})}/>
+                </div>
+            }
 
             {/* error message */}
-            {submitMsg && <p className={`${(submitMsg.ok === "good") ? "text-[#2dad53]" : "text-[#a22a24]"} text-xs`}>{submitMsg.message}</p>}
+            {submitMsg && <p className={`${(submitMsg.ok === "good") ? "text-good" : "text-bad"} text-xs`}>{submitMsg.message}</p>}
             
             {/* save button */}
             <button onClick={handleSave} className="fit-pill-button bg-primary hover:bg-secondary font-semibold contrast-text">
-                Save
+                {currCategory._id ? "Save" : "Add"}
             </button>
             
         </div>
