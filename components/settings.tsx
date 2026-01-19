@@ -19,6 +19,9 @@ export function Profile() {
     
     return (
         <div className="flex flex-col h-fit w-full sm:w-sm items-center sm:items-start gap-y-8">
+            <a href="/map">
+                <h4 className="text-center sm:text-left font-semibold w-fit h-auto text-primary hover:underline">{"<"} Back to Map</h4>
+            </a>
             <h1 className="text-center sm:text-left contrast-text font-bold">Account Settings</h1>
             <img className="w-3/5 max-w-3xs rounded-full aspect-square" src="vercel.svg" alt="Profile picture" />
             <LogoutButton />

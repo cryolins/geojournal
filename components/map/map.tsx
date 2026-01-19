@@ -58,6 +58,7 @@ export default function MapComponent() {
     const [isNoteMoving, setIsNoteMoving] = useState<boolean>(false);
     const [keptCategoryIds, setKeptCategoryIds] = useState<string[]>([]); // for filtering
     const [showAllNotes, setShowAllNotes] = useState(true); // filtering type too
+    const [isPageLoading, setIsPageLoading] = useState(true);
 
     // context value now that the states have been created
     const contextValue = {
@@ -68,16 +69,21 @@ export default function MapComponent() {
 
     // map setup on mount
     useEffect(() => {
+        setIsPageLoading(prev => true);
         getUserLocation(setInitialCoords);
         fetchNotes(setNotes);
         fetchCategories(setCategories, setKeptCategoryIds);
+        setIsPageLoading(prev => false);
     }, []);
     
     // receive location permissions before loading map
-    if (!initialCoords) {
+    if (!initialCoords || isPageLoading) {
         return (
-            <div className="flex w-full h-full items-center justify-center">
-                <h1 className="contrast-text font-bold">Waiting for location permissions...</h1>
+            <div className="flex flex-col sm:flex-row w-full h-full items-center justify-center gap-3">
+                <h1 className="contrast-text font-bold">
+                    Loading map details...
+                </h1>
+                <div className="size-17 min-w-17 min-h-17 border-solid border-8 border-foreground border-b-transparent rounded-full animate-spin" />
             </div>
         );
     }
@@ -99,9 +105,9 @@ export default function MapComponent() {
                         <ZoomControl position="bottomright" />
 
                         {/* hooks component for map events */}
-                        <MapHooks   setClickedCoords={setClickedCoords} setIsSaved={setIsSaved}
-                                    currNote={currNote} setCurrNote={setCurrNote}
-                                    isNoteMoving={isNoteMoving} setIsNoteMoving={setIsNoteMoving} />
+                        <MapHooks setClickedCoords={setClickedCoords} setIsSaved={setIsSaved}
+                                  currNote={currNote} setCurrNote={setCurrNote}
+                                  isNoteMoving={isNoteMoving} setIsNoteMoving={setIsNoteMoving} />
 
                         {/* set of loaded notes */}
                         {Array.from(notes?.values())
