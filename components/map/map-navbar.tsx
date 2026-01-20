@@ -66,7 +66,7 @@ export function MapNavbar() {
                     {/* category filter button */}
                     <div className="flex relative w-fit h-fit justify-center items-center">
                         <button onClick={() => setShowNavCatDropdown(prev => !prev)}
-                                className="flex flex-row bg-border-frame items-center justify-center w-60 min-w-fit gap-3 p-1.5 h-10 rounded-full">
+                                className="flex flex-row bg-border-frame items-center justify-center w-60 min-w-fit gap-3 p-1.5 h-10 rounded-full transition-colors">
                             <LuSlidersHorizontal className="contrast-text text-lg" />
                             <p className="font-semibold contrast-text cursor-pointer text-lg">Categories</p>
                         </button>

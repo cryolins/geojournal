@@ -35,6 +35,7 @@ export default function RootLayout({
         <SessionProvider>
           <StorageListener/>
           {children}
+          <div id="modal-root"></div>
         </SessionProvider>
       </body>
     </html>

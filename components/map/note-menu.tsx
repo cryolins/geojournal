@@ -5,6 +5,7 @@ import { LuPlus, LuTrash2, LuX } from "react-icons/lu";
 import { CategoryDropdown } from "./category-dropdown";
 import { APIResponseData } from "@/interfaces/responses";
 import { MapStatesContext } from "./map";
+import { ConfirmDeleteModal } from "../modals/modals";
 
 interface NoteFields{
     title: string
@@ -16,6 +17,7 @@ export default function NoteMenu() {
     const [bodyLength, setBodyLength] = useState(0);
     const [showCatDropdown, setShowCatDropdown] = useState(false);
     const [saveErrored, setSaveErrored] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     
     // getting MapStatesContext
     const {
@@ -98,12 +100,14 @@ export default function NoteMenu() {
                         )
                     );
                     setCurrNote(undefined);
+                    setShowDeleteModal(false);
                 }
             } catch (error) {
                 console.error(error);
             }
         } else {
             setCurrNote(undefined);
+            setShowDeleteModal(false);
         }
     }
 
@@ -214,7 +218,7 @@ export default function NoteMenu() {
                             <p className="text-foreground text-sm">{`${titleLength}/60`}</p>
                         </div>
                         <button onClick={() => setCurrNote(undefined)}
-                            className="note-menu-x-size p-1.5 rounded-full hover:bg-foreground/20 text-foreground">
+                            className="note-menu-x-size p-1.5 rounded-full hover:bg-foreground/20 transition-colors text-foreground">
                             <LuX className="w-full h-full"/>
                         </button>
                     </div>
@@ -226,7 +230,7 @@ export default function NoteMenu() {
                             <p className="italic text-foreground">{isSaved ? "All changes saved" : "Unsaved changes"}</p>
                             {saveErrored && <p className="text-xs text-bad">Error occurred while saving. Please try again.</p>}
                         </div>
-                        <button onClick={handleSave} className="fit-pill-button bg-primary hover:bg-secondary font-semibold contrast-text">
+                        <button onClick={handleSave} className="fit-pill-button bg-primary hover:bg-secondary transition-colors font-semibold contrast-text">
                             {currNote?._id ? "Save" : "Create"}
                         </button>
                     </div>
@@ -246,7 +250,7 @@ export default function NoteMenu() {
                 <div className="flex flex-row w-full justify-between items-center" hidden={!currNote}>
                     <p>{currNote?.location.coordinates[0].toFixed(6)}, {currNote?.location.coordinates[1].toFixed(6)}</p>
                     <button onClick={handleMoveButtonClick} 
-                            className={`fit-pill-button font-semibold contrast-text 
+                            className={`fit-pill-button font-semibold contrast-text transition-colors
                                         ${isNoteMoving ? "bg-bad hover:bg-badmed" : "bg-primary hover:bg-secondary" }`}>
                         {isNoteMoving ? "Cancel" : "Move"}
                     </button>
@@ -270,7 +274,7 @@ export default function NoteMenu() {
                     )}
                     <div className="flex relative w-fit h-fit justify-center items-center">
                         <button onClick={() => setShowCatDropdown(prev => !prev)}
-                                className="flex flex-row fit-pill-button w-auto gap-1 bg-primary hover:bg-secondary">
+                                className="flex flex-row fit-pill-button w-auto gap-1 bg-primary hover:bg-secondary transition-colors">
                             <LuPlus className="contrast-text" />
                             <p className="font-semibold contrast-text cursor-pointer">Add category</p>
                         </button>
@@ -293,11 +297,20 @@ export default function NoteMenu() {
                 
                 {/* delete button */}
                 <div className="flex w-full max-w-full h-fit justify-center items-center my-1" hidden={!currNote}>
-                    <button className="flex flex-row fit-pill-button w-auto gap-1 bg-bad hover:bg-badmed"
-                            onClick={handleDelete}>
+                    <button className="flex flex-row fit-pill-button w-auto gap-1 bg-bad hover:bg-badmed transition-colors"
+                            onClick={() => setShowDeleteModal(true)}>
                         <LuTrash2 className="contrast-text" />
                         <p className="font-semibold contrast-text text-sm">Delete Note</p>
                     </button>
+
+                    {/* delete modal */}
+                    {showDeleteModal &&
+                        <ConfirmDeleteModal 
+                            objectDesc={`note: ${currNote?.title}`}
+                            handleDelete={handleDelete}
+                            closeModal={() => setShowDeleteModal(false)}
+                        />
+                    }
                 </div>
 
             </div>

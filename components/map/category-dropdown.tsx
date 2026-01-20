@@ -4,6 +4,7 @@ import { LuPlus, LuSquarePen, LuTrash2 } from "react-icons/lu";
 import { MapStatesContext } from "./map";
 import { CategoryEditor } from "./category-editor";
 import { APIResponseData } from "@/interfaces/responses";
+import { ConfirmDeleteModal } from "../modals/modals";
 
 
 interface dropdownProps{
@@ -25,6 +26,7 @@ export function CategoryDropdown({ showDropdown, handleCategoryClick, isCategory
     // simply the state for the button, not indicative of what categories have been selected
     const [selectedAll, setSelectAll] = useState(true);  
     const [editorId, setEditorId] = useState("");
+    const [deleteModalId, setDeleteModalId] = useState<string>(""); // empty string = off
 
     // getting MapStatesContext
     const { categories, setCategories } = useContext(MapStatesContext);
@@ -41,33 +43,37 @@ export function CategoryDropdown({ showDropdown, handleCategoryClick, isCategory
         setShowEditor(true);
     }
 
-    // delete handler TODO: confirm screen very important :)
-    const handleDelete: MouseEventHandler<HTMLButtonElement> = (e) => {
-        const id = e.currentTarget.id;
-        setCategories(prevMap =>
-                new Map(
-                    [...prevMap.entries()].filter(
-                        (entry) => entry[0] !== id
+    // wrapper for handleDelete, to pass into ConfirmDeleteModal
+    const handleDeleteWrapper = (id: string) => {
+        // delete handler
+        const handleDelete: MouseEventHandler<HTMLButtonElement> = () => {
+            setCategories(prevMap =>
+                    new Map(
+                        [...prevMap.entries()].filter(
+                            (entry) => entry[0] !== id
+                        )
                     )
-                )
-            );
-        const sendDelete = async () => {
-            try {
-                const res = await fetch(`/api/categories/${id}`, {
-                    method: "DELETE",
-                    headers: { "Content-Type": "application/json" },
-                });
-                const resData: APIResponseData<string> = await res.json();
-                if (resData.status === "error") {
-                    console.error(`Error: ${resData.message}`);
-                } else {
-                    console.log(resData.resData);
+                );
+            const sendDelete = async () => {
+                try {
+                    const res = await fetch(`/api/categories/${id}`, {
+                        method: "DELETE",
+                        headers: { "Content-Type": "application/json" },
+                    });
+                    const resData: APIResponseData<string> = await res.json();
+                    if (resData.status === "error") {
+                        console.error(`Error: ${resData.message}`);
+                    } else {
+                        console.log(resData.resData);
+                    }
+                } catch (error) {
+                    console.error(error);
                 }
-            } catch (error) {
-                console.error(error);
             }
+            sendDelete();
+            setDeleteModalId("");
         }
-        sendDelete();
+        return handleDelete;
     }
 
     return (
@@ -142,13 +148,25 @@ export function CategoryDropdown({ showDropdown, handleCategoryClick, isCategory
 
                                 {/* delete button */}
                                 {inDeleteMode &&
-                                    <button className="w-4 h-4 min-w-4 min-h-4" id={category._id} onClick={handleDelete}>
-                                        <LuTrash2 className="w-full h-full text-bad hover:text-badmed" />
-                                    </button>
+                                    <div className="w-fit h-fit" id={category._id}>
+                                        <button className="w-4 h-4 min-w-4 min-h-4" onClick={() => setDeleteModalId(category._id)}>
+                                            <LuTrash2 className="w-full h-full text-bad hover:text-badmed transition-colors" />
+                                        </button>
+
+                                        {/* delete modal */}
+                                        {(deleteModalId === category._id) &&
+                                            <ConfirmDeleteModal 
+                                                objectDesc={`category: ${category.name}`}
+                                                handleDelete={handleDeleteWrapper(category._id)}
+                                                closeModal={() => setDeleteModalId("")}
+                                            />
+                                        }
+                                    </div>
                                 }
 
                             </div>
                         );
+
                     })}
                 </div>
             </div>
