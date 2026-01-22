@@ -6,6 +6,7 @@ import { CategoryDropdown } from "./category-dropdown";
 import { APIResponseData } from "@/interfaces/responses";
 import { MapStatesContext } from "./map";
 import { ConfirmDeleteModal } from "../modals/modals";
+import { ImageSlideShow } from "../images/image-slideshow";
 
 interface NoteFields{
     title: string
@@ -18,6 +19,7 @@ export default function NoteMenu() {
     const [showCatDropdown, setShowCatDropdown] = useState(false);
     const [saveErrored, setSaveErrored] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [currImageLinks, setCurrImageLinks] = useState<string[]>([]);
     
     // getting MapStatesContext
     const {
@@ -35,7 +37,7 @@ export default function NoteMenu() {
         const payload = {
                     title: currNote.title,
                     body: currNote.body,
-                    imageLinks: currNote.imageLinks,
+                    imageLinks: currImageLinks,
                     categoryIds: currNote.categoryIds,
                     lng: currNote.location.coordinates[0],
                     lat: currNote.location.coordinates[1],
@@ -187,6 +189,7 @@ export default function NoteMenu() {
         setIsSaved(!!currNote?._id); // save when opening old note but not when creating new note
         setIsNoteMoving(false);
         setShowCatDropdown(false);
+        setCurrImageLinks(currNote?.imageLinks ?? []);
     }, [currNote?._id]);    
 
     // remove save error msg when save status is updated
@@ -283,9 +286,9 @@ export default function NoteMenu() {
                                           defaultHeight="8rem" defaultWidth="10rem"/>
                     </div>
                 </div>
-                
-                {/* image container (placeholder) */}
-                <div className="w-full min-h-60 bg-primary rounded-2xl" hidden={!currNote}></div>
+
+                {/* image slideshow */}
+                <ImageSlideShow currImageLinks={currImageLinks} setCurrImageLinks={setCurrImageLinks} hidden={!currNote} />
 
                 {/* body */}
                 <div className="flex flex-col w-full max-w-full gap-y-1" hidden={!currNote}>

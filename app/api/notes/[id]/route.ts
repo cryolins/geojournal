@@ -2,6 +2,7 @@ import { optionalNoteRequestSchema } from "@/interfaces/requests";
 import { verifyUser } from "@/lib/api-helpers";
 import { connectDB } from "@/lib/db";
 import { Note } from "@/models/Note";
+import ImageKit from "@imagekit/nodejs";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -71,13 +72,24 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
             return verifyResult;
         }
 
-        const { id } = verifyResult;
+        const { id, userId } = verifyResult;
+
+        const privateKey = process.env.IMAGEKIT_PRIVATE_KEY as string; // Never expose this on client side
+        const client = new ImageKit({ privateKey });
+        // delete from imagekit
+        try {
+            const result = await client.folders.delete({ folderPath: `/projects/geojournal/${userId}/${id}` });
+            console.log(`deleted images ${result}`);
+        } catch (error) {
+            console.error(error);
+        }
         
         try {
             const deletedNote = await Note.findByIdAndDelete(id, { lean: true });
             if (!deletedNote) {
                 return NextResponse.json({ status: "error", message: "Note not found" }, { status: 404 });
             }
+
             return NextResponse.json({ status: "success", resData: "Successfully deleted note" }, { status: 200 });
         } catch (error) {
             return NextResponse.json({ status: "error", message: "Invalid delete" }, { status: 400 });

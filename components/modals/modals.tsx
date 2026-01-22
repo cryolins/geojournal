@@ -8,9 +8,10 @@ interface DeleteModalProps{
     objectDesc: string
     handleDelete: MouseEventHandler<HTMLButtonElement>
     closeModal: () => void
+    warningMsg?: string
 }
 
-export function ConfirmDeleteModal({ objectDesc, handleDelete, closeModal }: DeleteModalProps) {
+export function ConfirmDeleteModal({ objectDesc, handleDelete, closeModal, warningMsg }: DeleteModalProps) {
 
     return (
         <ModalWrapper closeModal={closeModal}>
@@ -20,7 +21,7 @@ export function ConfirmDeleteModal({ objectDesc, handleDelete, closeModal }: Del
                 <h5 className="contrast-text max-w-full">Confirm Delete</h5>
                 <p className="text-center max-w-full wrap-break-word">
                     Are you sure you want to delete the {objectDesc}? 
-                    <br/> <span className="font-bold contrast-text">This cannot be undone!</span>
+                    <br/> <span className="font-bold contrast-text">{ warningMsg ?? "This cannot be undone!"}</span>
                 </p>
                 <div className="flex flex-row w-3/5 min-w-fit max-w-full h-fit justify-between">
                     <button className="bg-border-frame fit-pill-button w-auto font-semibold transition-colors"

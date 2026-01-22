@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { editUserRequestSchema, signupRequestSchema } from "@/interfaces/requests";
 import { Note } from "@/models/Note";
 import { Category } from "@/models/Category";
+import ImageKit from "@imagekit/nodejs";
 
 export async function GET(req: NextRequest) {
     try {
@@ -143,6 +144,16 @@ export async function DELETE(req: NextRequest) {
         await User.findByIdAndDelete(session.user.id, { lean: true });
         await Note.deleteMany({ userId: session.user.id });
         await Category.deleteMany({ userId: session.user.id });
+        
+        const privateKey = process.env.IMAGEKIT_PRIVATE_KEY as string; // Never expose this on client side
+        const client = new ImageKit({ privateKey });
+        
+        try {
+            const result = await client.folders.delete({ folderPath: `/projects/geojournal/${session.user.id}` });
+            console.log(`deleted images ${result}`);
+        } catch (error) {
+            console.error(error);
+        }
 
         return NextResponse.json(
             { status: "success", resData: `Successfully deleted user ${session.user.id} and their notes and categories`},

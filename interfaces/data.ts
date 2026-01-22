@@ -28,3 +28,11 @@ export interface SubmitMsg{
     message: string
     ok: "good" | "bad"
 }
+
+export interface IKAuthData{
+    token: string
+    expire: number
+    signature: string
+    publicKey: string
+    userId: string
+}

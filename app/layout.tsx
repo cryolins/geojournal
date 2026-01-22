@@ -3,6 +3,7 @@ import { Inter, Public_Sans, Coming_Soon } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "@/components/auth/SessionProvider";
 import { StorageListener } from "@/components/event-listeners";
+import { ImageKitProvider } from "@imagekit/next";
 
 export const inter = Inter({
   variable: "--font-inter",
@@ -33,9 +34,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={``}>
         <SessionProvider>
-          <StorageListener/>
-          {children}
-          <div id="modal-root"></div>
+          <ImageKitProvider urlEndpoint="https://ik.imagekit.io/icepei1397">
+            <StorageListener/>
+            {children}
+            <div id="modal-root"></div>
+          </ImageKitProvider>
         </SessionProvider>
       </body>
     </html>
