@@ -1,5 +1,5 @@
-import { LuChevronRight, LuSlidersHorizontal } from "react-icons/lu";
-import { SettingsButton } from "../page-buttons";
+import { LuChevronRight, LuHexagon, LuSlidersHorizontal } from "react-icons/lu";
+import { HomeTextButton, SettingsButton } from "../page-buttons";
 import { Dispatch, MouseEventHandler, SetStateAction, useContext, useEffect, useState } from "react";
 import { CategoryDropdown } from "./category-dropdown";
 import { MapStatesContext } from "./map";
@@ -63,6 +63,9 @@ export function MapNavbar() {
                     {/* border div for left line */}
                     <div className="border-solid border-2 border-foreground h-10" />
 
+                    {/* home page button */}
+                    <HomeTextButton />
+
                     {/* category filter button */}
                     <div className="flex relative w-fit h-fit justify-center items-center">
                         <button onClick={() => setShowNavCatDropdown(prev => !prev)}
@@ -73,6 +76,15 @@ export function MapNavbar() {
                         <CategoryDropdown showDropdown={showNavCatDropdown} setShowDropdown={setShowNavCatDropdown} 
                                           handleCategoryClick={handleCategoryClick} isCategoryChecked={isCategoryChecked}
                                           includeDeleteMode selectAllFunction={selectAllFunction} defaultHeight="10rem" defaultWidth="15rem"/>
+                    </div>
+
+                    {/* visualize data button */}
+                    <div className="flex w-fit h-fit justify-center items-center">
+                        <a href="/visualize"
+                                className="flex flex-row bg-border-frame items-center justify-center w-fit min-w-fit gap-2 px-2.5 py-1 h-10 rounded-full transition-colors">
+                            <LuHexagon className="contrast-text text-lg" />
+                            <p className="font-semibold contrast-text cursor-pointer text-lg">Visualize</p>
+                        </a>
                     </div>
 
                 </div>

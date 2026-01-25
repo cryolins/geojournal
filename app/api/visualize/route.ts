@@ -48,7 +48,8 @@ export async function GET(req: NextRequest) {
                     },
                     count: { $sum: 1 }, // counts 1 per note
                     earliest: { $min: "$createdAt" },
-                    latest: { $max: "$updatedAt" }
+                    latest: { $max: "$updatedAt" },
+                    uniqueNotes: { $addToSet: "$_id" } // set of uniqueNotes for true note count later
                 }
             },
             
@@ -70,9 +71,9 @@ export async function GET(req: NextRequest) {
                 $group: {
                     _id: "$_id.h3", // id by h3, which is unique now since we grouped
                     dominantCategoryId: { $first: "$_id.categoryId" },
-                    noteCount: { $sum: "$count" },
                     firstActivity: { $min: "$earliest" },
-                    lastActivity: { $max: "$latest" }
+                    lastActivity: { $max: "$latest" },
+                    nestedUniqueNotes: { $push: "$uniqueNotes" }, // array of sets of unique notes per hex X category
                 }
             },
 
@@ -94,12 +95,19 @@ export async function GET(req: NextRequest) {
                 } 
             },
 
-            // 9. add back dominant category field if it's null
+            // 9. add back dominant category field if it's null, and process unique notes
             {
                 $addFields: {
                     dominantCategory: {
-                        $ifNull: ["$domCategory", { name: "<No category>", color: "7f7f7f" }]
+                        $ifNull: ["$domCategory", { name: "No category", color: "#7f7f7f" }]
                         // here's somewhere where using $ifNull would make sense
+                    },
+                    notesUnion: {
+                        $reduce: { // use reduce instead of setUnion directly since it's an array of sets
+                            input: "$nestedUniqueNotes",
+                            initialValue: [],
+                            in: { $setUnion: ["$$value", "$$this"] }
+                        }
                     }
                 }
             },
@@ -108,7 +116,7 @@ export async function GET(req: NextRequest) {
             {
                 $project : {
                     _id: 1,
-                    noteCount: 1,
+                    noteCount: { $size: "$notesUnion" },
                     firstActivity: 1,
                     lastActivity: 1,
                     "dominantCategory.name": 1,

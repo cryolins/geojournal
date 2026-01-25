@@ -3,8 +3,9 @@
 import "maplibre-gl/dist/maplibre-gl.css";
 import { H3HexagonLayer } from "@deck.gl/geo-layers";
 import { H3HexData } from "@/interfaces/data";
-import DeckGL, { MapViewState, PickingInfo } from "deck.gl";
+import DeckGL, { CompassWidget, MapViewState, PickingInfo, ZoomWidget } from "deck.gl";
 import Map from "react-map-gl/maplibre";
+import { _GeocoderWidget } from "@deck.gl/widgets";
 
 function getRGBAColor(hexColor: string, lastActivity: string): [number, number, number, number] {
     const r = parseInt(hexColor.slice(1, 3), 16);
@@ -39,13 +40,13 @@ export default function VisualizeMap({ data, initialCoords }: DataMapProps) {
         new H3HexagonLayer<H3HexData>({
             // basic setup
             id: "notes-vis-hex",
-            data: data.slice(0, 1),
+            data,
             getHexagon: (h) => h._id,
 
             // elevation of hexagons
             extruded: true,
             getElevation: (h) => h.noteCount,
-            elevationScale: 20,
+            elevationScale: 40,
 
             // color of hexagons
             getFillColor: (h) => getRGBAColor(h.dominantCategory.color, h.lastActivity),
