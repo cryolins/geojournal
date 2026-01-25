@@ -46,6 +46,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
         // parsing data into update query
         const { title, body, imageLinks, categoryIds, lng, lat } = zodResult.data;
         const location = (lng && lat) ? { type: "Point", coordinates: [lng, lat] } : undefined;
+        console.log(`${lat}, ${lng}`);
         const h3 = (lng && lat) ? {
                         h3_7: latLngToCell(lat, lng, 7),
                         h3_8: latLngToCell(lat, lng, 8),

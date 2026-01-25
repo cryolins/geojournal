@@ -251,7 +251,7 @@ export default function NoteMenu() {
                 
                 {/* location container */}
                 <div className="flex flex-row w-full justify-between items-center" hidden={!currNote}>
-                    <p>{currNote?.location.coordinates[0].toFixed(6)}, {currNote?.location.coordinates[1].toFixed(6)}</p>
+                    <p>{currNote?.location.coordinates[1].toFixed(6)}, {currNote?.location.coordinates[0].toFixed(6)}</p>
                     <button onClick={handleMoveButtonClick} 
                             className={`fit-pill-button font-semibold contrast-text transition-colors
                                         ${isNoteMoving ? "bg-bad hover:bg-badmed" : "bg-primary hover:bg-secondary" }`}>

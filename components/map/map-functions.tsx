@@ -80,7 +80,7 @@ export function addNewNote(setCurrNote: Dispatch<SetStateAction<NoteData | undef
     const now = new Date();
     const newNote: NoteData = {
         ...blankNoteTemplate,
-        location: {coordinates: [clickedCoords.lat, clickedCoords.lng]},
+        location: {coordinates: [clickedCoords.lng, clickedCoords.lat]},
         createdAt: now.toISOString(),
         updatedAt: now.toISOString()
     }

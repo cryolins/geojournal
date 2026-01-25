@@ -21,7 +21,7 @@ export default function MapHooks({
             if (isNoteMoving) {
                 setIsNoteMoving(false);
                 if (currNote) {
-                    const newCoords: [number, number] = [e.latlng.lat, e.latlng.lng];
+                    const newCoords: [number, number] = [e.latlng.lng, e.latlng.lat];
                     setCurrNote({
                         ...currNote,
                         location: { coordinates: newCoords }

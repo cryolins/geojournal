@@ -77,7 +77,7 @@ export function CategoryDropdown({ showDropdown, handleCategoryClick, isCategory
     }
 
     return (
-        <div className={`flex flex-col items-center w-fit h-fit absolute top-full mt-1 gap-1`}>
+        <div className={`flex flex-col items-center w-fit h-fit absolute top-full mt-1 gap-1 z-6`}>
             {/* ^wrapper container for dropdown and related menus like editor*/}
 
             {/* category dropdown list container */}

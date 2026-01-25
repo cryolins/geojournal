@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
             // 2. unwind by categories to count categories per hexagon
             { 
                 $unwind: {
-                    path: "$category",
+                    path: "$categoryIds",
                     preserveNullAndEmptyArrays: true
                 } 
             },

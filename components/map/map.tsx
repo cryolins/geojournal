@@ -118,7 +118,7 @@ export default function MapComponent() {
                             )
                             .map((note) => (
                             <Marker 
-                                position={note.location.coordinates} 
+                                position={[note.location.coordinates[1], note.location.coordinates[0]]} 
                                 key={note._id}
                                 eventHandlers={{
                                     click: () => {
@@ -135,7 +135,7 @@ export default function MapComponent() {
 
                         {/* "ghost note" for if current note has updated, unsaved position */}
                         {(currNote && hasDiffLocation(currNote, notes.get(currNote._id))) &&
-                            <Marker opacity={0.6} position={currNote.location.coordinates}>
+                            <Marker opacity={0.6} position={[currNote.location.coordinates[1], currNote.location.coordinates[0]]}>
                                 <Tooltip>{`unsaved: ${currNote.title}`}</Tooltip>
                             </Marker>
                         }

@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { noteRequestSchema } from "@/interfaces/requests";
 import { connectDB } from "@/lib/db";
 import { Note } from "@/models/Note";
-import { latLngToCell } from "h3-js";
+import { isValidCell, latLngToCell } from "h3-js";
 import { NextRequest, NextResponse } from "next/server";
 
 
@@ -53,6 +53,9 @@ export async function GET(req: NextRequest) {
         // connect to db
         await connectDB();
         const foundNotes = await Note.find(dbQuery).lean();
+
+        //const h3Log = foundNotes.map(n => [n.title, n.h3.h3_8, isValidCell(n.h3.h3_8)]);
+        //console.log(h3Log);
         
         return NextResponse.json({ status: "success", resData: foundNotes }, { status: 200 });
         
