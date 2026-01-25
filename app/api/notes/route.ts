@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { noteRequestSchema } from "@/interfaces/requests";
 import { connectDB } from "@/lib/db";
 import { Note } from "@/models/Note";
+import { latLngToCell } from "h3-js";
 import { NextRequest, NextResponse } from "next/server";
 
 
@@ -92,6 +93,11 @@ export async function POST(req: NextRequest) {
                 type: "Point",
                 coordinates: [noteData.lng, noteData.lat],
             },
+            h3: {
+                h3_7: latLngToCell(noteData.lat, noteData.lng, 7),
+                h3_8: latLngToCell(noteData.lat, noteData.lng, 8),
+                h3_9: latLngToCell(noteData.lat, noteData.lng, 9)
+            }
         });
 
         return NextResponse.json({ status: "success", resData: note }, { status: 201 });

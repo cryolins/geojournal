@@ -36,3 +36,11 @@ export interface IKAuthData{
     publicKey: string
     userId: string
 }
+
+export interface H3HexData{
+    _id: string
+    noteCount: number
+    firstActivity: string
+    lastActivity: string
+    dominantCategory: { name: string, color: string }
+}

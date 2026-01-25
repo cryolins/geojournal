@@ -3,6 +3,7 @@ import { verifyUser } from "@/lib/api-helpers";
 import { connectDB } from "@/lib/db";
 import { Note } from "@/models/Note";
 import ImageKit from "@imagekit/nodejs";
+import { latLngToCell } from "h3-js";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -45,7 +46,12 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
         // parsing data into update query
         const { title, body, imageLinks, categoryIds, lng, lat } = zodResult.data;
         const location = (lng && lat) ? { type: "Point", coordinates: [lng, lat] } : undefined;
-        const noteData = { title, body, imageLinks, categoryIds, location }
+        const h3 = (lng && lat) ? {
+                        h3_7: latLngToCell(lat, lng, 7),
+                        h3_8: latLngToCell(lat, lng, 8),
+                        h3_9: latLngToCell(lat, lng, 9)
+                    } : undefined;
+        const noteData = { title, body, imageLinks, categoryIds, location, h3 }
 
         try {
             const updatedNote = await Note.findByIdAndUpdate(id, noteData, 

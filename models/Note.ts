@@ -7,8 +7,13 @@ const NoteSchema = new Schema({
     imageLinks: [String],
     categoryIds: [{ type: Schema.Types.ObjectId, ref: "Category" }],
     location: {
-        type: { type: String, enum: ["Point"], required: true},
+        type: { type: String, enum: ["Point"], required: true },
         coordinates: { type: [Number], required: true }
+    },
+    h3: { 
+        h3_7: { type: String, required: true },
+        h3_8: { type: String, required: true },
+        h3_9: { type: String, required: true },
     }
 },
 {
