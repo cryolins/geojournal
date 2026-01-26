@@ -50,7 +50,15 @@ export default function LoginForm() {
     return(
         <div className="flex min-h-screen min-w-screen items-center justify-center bg-background px-4">
             <div className="flex flex-col w-lg h-auto p-8 gap-y-6 items-center bg-backgroundlight rounded-2xl drop-shadow">
-                <h2 className="contrast-text">Login</h2>
+                <h3 className="flex flex-row contrast-text">
+                    Login to
+                    <a href="/"
+                            className="flex items-center justify-center w-fit ml-2">
+                        <button className="font-semibold relative contrast-text cursor-pointer pl-1 geojournal-text"><span className="text-good">geo</span>journal!
+                            <span className="absolute -top-1.25 -left-0.5 text-[#8ea9dd] text-xl -rotate-6 geojournal-text">cryo's</span>
+                        </button>
+                    </a>
+                </h3>
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center w-full h-auto gap-y-5">
                     <div className="flex flex-col w-full gap-y-6 mb-2">
                         <div className="flex flex-col w-full">

@@ -74,6 +74,10 @@ button {
   cursor: pointer;
 }
 
+.geojournal-text {
+  font-family: 'Dangrek';
+}
+
 /* leaflet component stylings */
 
 .leaflet-container {
