@@ -1,36 +1,124 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<!-- ABOUT THE PROJECT -->
+# geojournal!
+***geojournal!*** is an interactive map-based journaling webapp, allowing users to create and edit geotagged notes and explore their notetaking patterns with modern geo-data visualization libraries. 
+![Maps Promo Image](./public/demo-images/main-promo.png)
 
-## Getting Started
+<!-- FEATURES -->
+## Features
+- **Geotagged journal notes:**
+	- Create and edit notes with a click anywhere on the map
+	- Add descriptions, images, and categories to your notes
+- **Custom categories:**
+	- Create, edit, and delete your own custom categories with custom colors
+	- Notes can be assigned multiple categories or none at all!
+- **Visualize notes data:**
+	- Notes are grouped into hexagonal cells (using H3), each displaying an analysis of your note activity patterns in that area.
+	- Visual encodings:
+		-   **Color** represents the dominant category in each area
+		-   **Height** represents the number of notes
+		-   **Opacity** reflects recency of activity
+	- Visualization updates as notes change!
+- **Secure authentication:**
+	- Authentication built with latest Auth.js versions integrated with Next.js
+	- Usage of JWTs, and passwords are salted and hashed
+	- CRUD APIs automatically check for authentication and only process/return data accessible by the current user
 
-First, run the development server:
+<!-- BUILT WITH -->
+## Built With
+- **Full-stack framework:** Next.js with Typescript
+- **Frontend:** React / Tailwind CSS
+- **Mapping and visualization:** Leaflet, Maplibre GL JS, deck.gl
+-  **Database:** MongoDB, Mongoose
+- **Image cloud:** ImageKit.io
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<!-- PROJECT SETUP -->
+## Accessing the App
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Currently working on deploying a web demo, but this project is available for installation.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Installation
+1. Clone the repo
+   ```sh
+   git clone https://github.com/cryolins/geojournal.git
+   ```
+ 2. Verify that you are in the geojournal directory
+    ```sh
+	cd geojournal
+	   ```
+3. Install NPM packages
+   ```sh
+   npm install
+   ```
+4. Copy `.env.example` as `.env` and fill in the fields
+   ```py
+   # mongoDB uri, either a mongoDB cloud uri or local port
+   MONGODB_URI=""
+   # generate a nextauth secret by running: openssl rand -base64 32
+   NEXTAUTH_SECRET=""
+   NEXTAUTH_URL="http://localhost:3000" # default run port
+   # setup an imagekit account and retrieve the private key
+   IMAGEKIT_PRIVATE_KEY=""
+   # setup an imagekit account and retrieve the public key
+   IMAGEKIT_PUBLIC_KEY=""
+   ```
 
-## Learn More
+### Running the app
+Run `npm run dev` in the `geojournal` directory
 
-To learn more about Next.js, take a look at the following resources:
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<!-- USAGE EXAMPLES -->
+## Usage
+- Navigate to the `/signup` page to create an account, or `/login` to log in to an account
+![Login Image](./public/demo-images/login-page-1.png)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- You will be redirected to the `/map` page where you can create a new note by clicking on the map, then you will be able to create and save the note
+![Click Map Image](./public/demo-images/click-to-add-note.png)
+![Note Map Image](./public/demo-images/map-page.png)
 
-## Deploy on Vercel
+- The Categories button in the map navbar allows you to manage your categories and filter what categories of notes are shown on the map
+![Category Menu Image](./public/demo-images/category-menu.png)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- The Visualize button in the map navbar directs you to the visualizer page, allowing for an interactive map view of statistics of your notes. Works better the more notes you have!
+![Visualizer Map Image](./public/demo-images/visualize-page.png)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- You can change your account details by navigating to `/settings` via the user icon buttons. Be sure to enter your old password to confirm changes! (Profile pictures are coming soon)
+![Settings Page Image](./public/demo-images/settings-page.png)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- ROADMAP -->
+## Roadmap
+
+- [ ] Profile Pictures
+- [ ] Deploying a demo
+- [ ] Add OAuth options, along with auth features like forgot password.
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+<!-- REPO INFO -->
+## Repository Info
+
+By: [cryolins](https://github.com/cryolins)
+
+Project Link: [https://github.com/cryolins/geojournal](https://github.com/cryolins/geojournal)
+
+<!-- ACKNOWLEDGMENTS -->
+## Acknowledgments
+
+Here are some smaller useful libraries used in this project!
+
+* [React Icons](https://react-icons.github.io/react-icons/search)
+* [Zod (for API validation)](https://zod.dev/)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- MARKDOWN VARIABLES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
