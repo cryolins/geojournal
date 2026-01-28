@@ -8,8 +8,6 @@ import { Note } from "@/models/Note";
 import { Category } from "@/models/Category";
 import ImageKit from "@imagekit/nodejs";
 
-const BASE_URL = process.env.NEXT_BASE_URL!;
-
 export async function GET(req: NextRequest) {
     try {
         // auth check
@@ -21,7 +19,7 @@ export async function GET(req: NextRequest) {
         const foundUser = await User.findById(session.user.id).lean();
         if (!foundUser) {
             // no such user, maybe as a result of getting deleted: redirect to login
-            return NextResponse.redirect(new URL("/login", BASE_URL));
+            return NextResponse.redirect(new URL("/login", req.url));
         }
 
         return NextResponse.json({ status: "success", resData: foundUser }, { status: 200})
@@ -107,7 +105,7 @@ export async function PUT(req: NextRequest) {
         const user: any = await User.findById(session.user.id).lean();
         if (!user) {
             // no such user, maybe as a result of getting deleted: redirect to login
-            return NextResponse.redirect(new URL("/login", BASE_URL));
+            return NextResponse.redirect(new URL("/login", req.url));
         }
 
         // compare password
