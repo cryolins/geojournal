@@ -1,5 +1,7 @@
 import { Dispatch, MouseEventHandler, SetStateAction } from "react";
 import { ModalWrapper } from "./modal-utilities";
+import { UploadMenu } from "../images/image-upload";
+import { UploadResponse } from "@imagekit/next";
 
 // SPECIFIC MODALS
 
@@ -9,6 +11,15 @@ interface DeleteModalProps{
     handleDelete: MouseEventHandler<HTMLButtonElement>
     closeModal: () => void
     warningMsg?: string
+}
+
+// delete confirmation modal
+interface UploadPhotoProps{
+    destination?: string
+    closeModal: () => void
+    imageLinks: string[]
+    handleUploadSuccess: (upRes: UploadResponse) => void
+    _fileName?: string
 }
 
 export function ConfirmDeleteModal({ objectDesc, handleDelete, closeModal, warningMsg }: DeleteModalProps) {
@@ -33,6 +44,20 @@ export function ConfirmDeleteModal({ objectDesc, handleDelete, closeModal, warni
                         Delete
                     </button>
                 </div>
+            </div>
+        </ModalWrapper>
+    );
+}
+
+export function UploadPhotoModal({ destination = "", closeModal, imageLinks, handleUploadSuccess, _fileName }: UploadPhotoProps) {
+
+    return (
+        <ModalWrapper closeModal={closeModal}>
+            <div className="flex flex-col w-fit h-fit rounded-xl items-center p-4 gap-2 
+                            bg-background border-foreground border-solid border-3"
+                  onClick={(e) => e.stopPropagation()}>
+                <UploadMenu currImageLinks={imageLinks} handleUploadSuccess={handleUploadSuccess}
+                            folderPathFromUser={`${destination}`} _fileName={_fileName} _useUniqueName={false}/>
             </div>
         </ModalWrapper>
     );

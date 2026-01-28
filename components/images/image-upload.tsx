@@ -11,31 +11,24 @@ interface UploadMenuProps{
     currImageLinks?: string[]
     handleUploadSuccess: (upRes: UploadResponse) => void
     resetMsgDependencies?: any[]
+    folderPathFromUser?: string
+    maxLinksLength?: number
+    _fileName?: string
+    _useUniqueName?: boolean
 }
 
 // some code taken from ImageKit NextJS docs
-export function UploadMenu ({ currImageLinks, handleUploadSuccess, resetMsgDependencies }: UploadMenuProps) {
+export function UploadMenu ({ currImageLinks, handleUploadSuccess, resetMsgDependencies = [], maxLinksLength = 1,
+                              folderPathFromUser, _fileName, _useUniqueName }: UploadMenuProps) {
     const [progress, setProgress] = useState(0);
     const [submitMsg, setSubmitMsg] = useState<SubmitMsg>({ message: "", ok: "bad" });
     const [fileName, setFileName] = useState("");
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const { currNote } = useContext(MapStatesContext);
 
     // reset submit message
     useEffect(() => {
         setSubmitMsg({ message: "", ok: "bad" });
     }, resetMsgDependencies);
-
-    if (!currNote?._id) {
-        // if no note or new note, disable adding pictures
-        return (
-            <div className="flex flex-col h-fit max-size-full gap-1 m-1 input-field">
-                <h5 className="text-neutral-900 font-semibold text-center">Please create the note to add images</h5>
-            </div>
-        );
-    }
-
-    resetMsgDependencies = resetMsgDependencies ?? [];
 
     // function to get auth details
     const getAuth = async (): Promise<IKAuthData | null> => {
@@ -64,8 +57,8 @@ export function UploadMenu ({ currImageLinks, handleUploadSuccess, resetMsgDepen
             console.log(fileInput);
             setSubmitMsg({ message: "Please select a file to upload", ok: "bad"});
             return;
-        } else if (currImageLinks && currImageLinks.length >= 12) {
-            setSubmitMsg({ message: "Max 12 images per note", ok: "bad"});
+        } else if (currImageLinks && currImageLinks.length >= maxLinksLength) {
+            setSubmitMsg({ message: `Max ${maxLinksLength} images per`, ok: "bad"});
             return;
         }
 
@@ -94,9 +87,9 @@ export function UploadMenu ({ currImageLinks, handleUploadSuccess, resetMsgDepen
                 signature,
                 publicKey,
                 file,
-                fileName: file.name,
-                useUniqueFileName: true,
-                folder: `/projects/geojournal/${userId}/${currNote?._id ?? ""}`,
+                fileName: _fileName ?? file.name,
+                useUniqueFileName: _useUniqueName ?? true,
+                folder: `/projects/geojournal/${userId}/${folderPathFromUser ?? ""}`,
                 // Progress callback to update upload progress state
                 onProgress: (e) => {
                     setProgress((e.loaded / e.total) * 100);

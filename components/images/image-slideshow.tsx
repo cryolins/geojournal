@@ -73,7 +73,8 @@ export function ImageSlideShow({ currImageLinks, setCurrImageLinks, hidden }: Im
             {/* image upload on last slide */}
             <div className={`size-full flex items-center justify-center p-2 relative 
                             transition-opacity duration-500 ${(slideNum === currImageLinks.length) ? "opacity-100" : "opacity-0"}`}>
-                <UploadMenu currImageLinks={currImageLinks} handleUploadSuccess={handleUploadSuccess} resetMsgDependencies={[slideNum]}/>
+                <UploadMenu currImageLinks={currImageLinks} handleUploadSuccess={handleUploadSuccess} resetMsgDependencies={[slideNum]}
+                            folderPathFromUser={`${currNote?._id ?? ""}`}/>
                 <p className="absolute bottom-0.5 p-1 text-center bg-neutral-900/60 contrast-text">
                     ++/{currImageLinks.length}
                 </p>

@@ -21,7 +21,7 @@ export function ModalWrapper({ children, closeModal }: ModalProps) {
     };
 
     return createPortal(
-        <div className="flex absolute top-0 bottom-0 left-0 right-0 bg-neutral-800/35 items-center justify-center z-100 overflow-auto"
+        <div className="flex fixed top-0 bottom-0 left-0 right-0 bg-neutral-800/35 items-center justify-center z-100 overflow-auto"
                 onClick={handleBgClick} id="modal">
             {children}
         </div>,

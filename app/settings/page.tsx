@@ -11,11 +11,11 @@ export default async function Settings() {
         redirect("/login");
     }
 
-    const { username, name, email } = session.user;
+    const { username, name, email, id } = session.user;
 
     return (
         <div className="flex flex-col sm:flex-row min-h-screen min-w-full items-center sm:items-start justify-center bg-background p-6 sm:p-12 gap-8 sm:gap-28">
-            <Profile />
+            <Profile userId={id}/>
             <EditForm username={username} name={name} email={email}/>
         </div>
     );
