@@ -15,12 +15,11 @@ export async function GET(req: NextRequest) {
         if (!session) {
             return NextResponse.json({ status: "error", message: "Unauthorized" }, { status: 401 });
         }
-        const originalUrl = req.nextUrl.protocol + req.headers.get("host") + req.nextUrl.pathname;
 
         const foundUser = await User.findById(session.user.id).lean();
         if (!foundUser) {
             // no such user, maybe as a result of getting deleted: redirect to login
-            return NextResponse.redirect(new URL("/login", originalUrl));
+            return NextResponse.redirect(new URL("/login", req.nextUrl.clone()));
         }
 
         return NextResponse.json({ status: "success", resData: foundUser }, { status: 200})
@@ -106,8 +105,7 @@ export async function PUT(req: NextRequest) {
         const user: any = await User.findById(session.user.id).lean();
         if (!user) {
             // no such user, maybe as a result of getting deleted: redirect to login
-            const originalUrl = req.nextUrl.protocol + req.headers.get("host") + req.nextUrl.pathname;
-            return NextResponse.redirect(new URL("/login", originalUrl));
+            return NextResponse.redirect(new URL("/login", req.nextUrl.clone()));
         }
 
         // compare password
