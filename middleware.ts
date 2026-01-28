@@ -16,17 +16,20 @@ export default async function authMiddleware (req: NextRequest) {
 
     const token = await getToken({ req, secret: SECRET });
     const nextPath = req.nextUrl.pathname;
-    //console.log(token);
-
-    /*if (!token && protPaths.includes(nextPath)) {
+    
+    if (!token && protPaths.includes(nextPath)) {
         // trying to access protected paths without logging in -> redirect to login page
-        return NextResponse.redirect(new URL("/login", req.nextUrl.clone()));
+        console.log("redirected to login");
+        console.log(token);
+        return NextResponse.redirect(new URL("/login", req.url));
     } else if (token && authPaths.includes(nextPath)) {
         // trying to access login paths while being logged in -> redirect to map page
-        return NextResponse.redirect(new URL("/map", req.nextUrl.clone()));
-    }*/
+        console.log("redirected to map");
+        console.log(token);
+        return NextResponse.redirect(new URL("/map", req.url));
+    }
     // can add rbac or other conditions as needed
-    //else{
+    else{
         return NextResponse.next();
-    //}
+    }
 }
