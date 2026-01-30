@@ -105,9 +105,7 @@ export default function MapComponent() {
                         <ZoomControl position="bottomright" />
 
                         {/* hooks component for map events */}
-                        <MapHooks setClickedCoords={setClickedCoords} setIsSaved={setIsSaved}
-                                  currNote={currNote} setCurrNote={setCurrNote}
-                                  isNoteMoving={isNoteMoving} setIsNoteMoving={setIsNoteMoving} />
+                        <MapHooks setClickedCoords={setClickedCoords} />
 
                         {/* set of loaded notes */}
                         {Array.from(notes?.values())
@@ -141,7 +139,7 @@ export default function MapComponent() {
                         }
 
                         {/* popup at clicked location */}
-                        {(clickedCoords && true) && 
+                        {clickedCoords && 
                             <Popup position={clickedCoords}>
                                 <div className="flex flex-row items-center justify-center gap-x-3 contrast-text h-fit">
                                     <div className="font-public-sans">
