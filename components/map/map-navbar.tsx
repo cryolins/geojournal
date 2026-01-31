@@ -94,7 +94,7 @@ export function MapNavbar() {
 
             <SettingsButton />
             {/* category dropdown removed out */}
-            <div className={`absolute top-13 transition-all duration-500 ${currNote?._id ? "left-1" : "dropdown-anchoring"}`}>
+            <div className={`absolute top-13 transition-all duration-500 ${currNote ? "left-1" : "dropdown-anchoring"}`}>
                 <CategoryDropdown showDropdown={showNavCatDropdown} setShowDropdown={setShowNavCatDropdown} 
                                 handleCategoryClick={handleCategoryClick} isCategoryChecked={isCategoryChecked}
                                 includeDeleteMode selectAllFunction={selectAllFunction} defaultHeight="10rem" defaultWidth="15rem"/>

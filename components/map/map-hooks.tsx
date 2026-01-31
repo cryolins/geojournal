@@ -3,6 +3,7 @@ import { LatLng } from "leaflet";
 import { Dispatch, SetStateAction, useContext } from "react";
 import { useMap, useMapEvents } from "react-leaflet";
 import { MapStatesContext } from "./map";
+import { MapLocationSaver } from "../event-listeners";
 
 interface HookProps {
     setClickedCoords: Dispatch<SetStateAction<LatLng | undefined>>
@@ -31,5 +32,5 @@ export default function MapHooks({ setClickedCoords }: HookProps) {
         }
     });
 
-    return null;
+    return <MapLocationSaver map={map}/>;
 }
