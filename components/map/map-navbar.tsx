@@ -7,7 +7,7 @@ import { CategoryData } from "@/interfaces/data";
 
 
 export function MapNavbar() {
-    const { categories, keptCategoryIds, setKeptCategoryIds, showAllNotes, setShowAllNotes } = useContext(MapStatesContext);
+    const { categories, keptCategoryIds, setKeptCategoryIds, currNote, setShowAllNotes } = useContext(MapStatesContext);
     const [expandLeft, setExpandLeft] = useState(true); // whether left side bar is expanded or not
     const [showNavCatDropdown, setShowNavCatDropdown] = useState(false);
 
@@ -53,10 +53,10 @@ export function MapNavbar() {
                         bg-linear-to-b from-neutral-900/70 to-neutral-900-50">
 
             {/* sliding navbar */}
-            <div className="flex flex-row w-fit max-w-[calc(100vw-4rem)] h-fit py-1 items-center gap-2 mr-1.5 shrink">
+            <div className="flex flex-row w-fit max-w-[calc(100%-4rem)] h-fit py-1 items-center gap-2 mr-1.5 shrink">
 
                 {/* container for navbar buttons */}
-                <div className={`flex flex-row w-fit h-fit max-h-12 items-center gap-2 p-1
+                <div className={`flex flex-row w-fit h-fit max-h-12 items-center gap-2 p-1 overflow-y-hidden
                         transition-all ${ expandLeft ? "max-w-full overflow-x-auto" : "max-w-0 overflow-x-hidden" }`}>
                     
                     {/* border div for left line */}
@@ -94,7 +94,7 @@ export function MapNavbar() {
 
             <SettingsButton />
             {/* category dropdown removed out */}
-            <div className="absolute dropdown-anchoring">
+            <div className={`absolute top-13 transition-all duration-500 ${currNote?._id ? "left-1" : "dropdown-anchoring"}`}>
                 <CategoryDropdown showDropdown={showNavCatDropdown} setShowDropdown={setShowNavCatDropdown} 
                                 handleCategoryClick={handleCategoryClick} isCategoryChecked={isCategoryChecked}
                                 includeDeleteMode selectAllFunction={selectAllFunction} defaultHeight="10rem" defaultWidth="15rem"/>
