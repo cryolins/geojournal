@@ -5,7 +5,7 @@ import { LuMapPinned, LuUserRound } from "react-icons/lu";
 export function SettingsButton() {
     return (
         <a className="w-12 aspect-square bg-border-frame transition-colors rounded-full p-1.5 m-1 
-                            drop-shadow-md drop-shadow-background" href="/settings">
+                      shrink-0 grow-0 drop-shadow-md drop-shadow-background" href="/settings">
             <LuUserRound className="w-full h-full"/>
         </a>
     );

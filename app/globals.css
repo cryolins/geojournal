@@ -78,6 +78,19 @@ button {
   font-family: 'Dangrek';
 }
 
+/* for dropdowns */
+.dropdown-button {
+  anchor-name: --owner;
+  position: relative;
+}
+
+.dropdown-anchoring {
+  position-anchor: --owner;
+  position: absolute;
+  top: anchor(bottom);
+  left: anchor(left);
+}
+
 /* leaflet component stylings */
 
 .leaflet-container {
@@ -120,6 +133,31 @@ button {
 
 [type=checkbox] {
   appearance: none;
+}
+
+/* scrollbars */
+.fg-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-foreground) transparent; /* thumb color track color */
+  overflow-y: scroll; /* Ensures the element is scrollable */
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--color-foreground);
+  border-radius: 5px;
 }
 
 html {font-size: 100%;} /* 16px */

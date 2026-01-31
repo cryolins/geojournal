@@ -1,6 +1,6 @@
 import { LuChevronRight, LuHexagon, LuSlidersHorizontal } from "react-icons/lu";
 import { HomeTextButton, SettingsButton } from "../page-buttons";
-import { Dispatch, MouseEventHandler, SetStateAction, useContext, useEffect, useState } from "react";
+import { Dispatch, MouseEventHandler, SetStateAction, useContext, useEffect, useRef, useState } from "react";
 import { CategoryDropdown } from "./category-dropdown";
 import { MapStatesContext } from "./map";
 import { CategoryData } from "@/interfaces/data";
@@ -10,7 +10,6 @@ export function MapNavbar() {
     const { categories, keptCategoryIds, setKeptCategoryIds, showAllNotes, setShowAllNotes } = useContext(MapStatesContext);
     const [expandLeft, setExpandLeft] = useState(true); // whether left side bar is expanded or not
     const [showNavCatDropdown, setShowNavCatDropdown] = useState(false);
-    
 
     // handle category click: filtering
     const handleCategoryClick: MouseEventHandler<HTMLInputElement> = (e) => {
@@ -50,15 +49,15 @@ export function MapNavbar() {
     }, [expandLeft]);
 
     return (
-        <div className="flex flex-row w-full h-fit p-1 justify-between absolute top-0
+        <div className="flex flex-row w-full max-w-full h-fit p-1 justify-between absolute top-0
                         bg-linear-to-b from-neutral-900/70 to-neutral-900-50">
 
             {/* sliding navbar */}
-            <div className="flex flex-row w-fit max-w-full h-fit items-center gap-2 mr-1.5">
+            <div className="flex flex-row w-fit max-w-[calc(100vw-4rem)] h-fit py-1 items-center gap-2 mr-1.5 shrink">
 
                 {/* container for navbar buttons */}
-                <div className={`flex flex-row w-fit h-fit max-h-12 items-center gap-2 p-1 
-                        transition-all ${ expandLeft ? "max-w-full " : "max-w-0 overflow-x-hidden" }`}>
+                <div className={`flex flex-row w-fit h-fit max-h-12 items-center gap-2 p-1
+                        transition-all ${ expandLeft ? "max-w-full overflow-x-auto" : "max-w-0 overflow-x-hidden" }`}>
                     
                     {/* border div for left line */}
                     <div className="border-solid border-2 border-foreground h-10" />
@@ -67,15 +66,12 @@ export function MapNavbar() {
                     <HomeTextButton />
 
                     {/* category filter button */}
-                    <div className="flex relative w-fit h-fit justify-center items-center">
+                    <div className="flex relative w-fit h-fit justify-center items-center dropdown-button">
                         <button onClick={() => setShowNavCatDropdown(prev => !prev)}
                                 className="flex flex-row bg-border-frame items-center justify-center w-60 min-w-fit gap-3 p-1.5 h-10 rounded-full transition-colors">
                             <LuSlidersHorizontal className="contrast-text text-lg" />
                             <p className="font-semibold contrast-text cursor-pointer text-lg">Categories</p>
                         </button>
-                        <CategoryDropdown showDropdown={showNavCatDropdown} setShowDropdown={setShowNavCatDropdown} 
-                                          handleCategoryClick={handleCategoryClick} isCategoryChecked={isCategoryChecked}
-                                          includeDeleteMode selectAllFunction={selectAllFunction} defaultHeight="10rem" defaultWidth="15rem"/>
                     </div>
 
                     {/* visualize data button */}
@@ -97,6 +93,12 @@ export function MapNavbar() {
             </div>
 
             <SettingsButton />
+            {/* category dropdown removed out */}
+            <div className="absolute dropdown-anchoring">
+                <CategoryDropdown showDropdown={showNavCatDropdown} setShowDropdown={setShowNavCatDropdown} 
+                                handleCategoryClick={handleCategoryClick} isCategoryChecked={isCategoryChecked}
+                                includeDeleteMode selectAllFunction={selectAllFunction} defaultHeight="10rem" defaultWidth="15rem"/>
+            </div>
         </div>
     );
 }
