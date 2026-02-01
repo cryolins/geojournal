@@ -31,8 +31,6 @@
 -  **Database:** MongoDB, Mongoose
 - **Image cloud:** ImageKit.io
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 <!-- PROJECT SETUP -->
 ## Accessing the App
 
@@ -67,8 +65,6 @@ Currently working on deploying a web demo, but this project is available for ins
 ### Running the app
 Run `npm run dev` in the `geojournal` directory
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 <!-- USAGE EXAMPLES -->
 ## Usage
 - Navigate to the `/signup` page to create an account, or `/login` to log in to an account
@@ -87,13 +83,9 @@ Run `npm run dev` in the `geojournal` directory
 - You can change your account details by navigating to `/settings` via the user icon buttons. Be sure to enter your old password to confirm changes! (Profile pictures are coming soon)
 ![Settings Page Image](./public/demo-images/settings-page.png)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Profile Pictures
-- [ ] Deploying a demo
 - [ ] Add OAuth options, along with auth features like forgot password.
 
 <!-- LICENSE -->
@@ -115,10 +107,6 @@ Here are some smaller useful libraries used in this project!
 
 * [React Icons](https://react-icons.github.io/react-icons/search)
 * [Zod (for API validation)](https://zod.dev/)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- MARKDOWN VARIABLES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
