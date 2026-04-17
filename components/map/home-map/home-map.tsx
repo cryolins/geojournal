@@ -42,13 +42,15 @@ export default function HomeMapComponent() {
             </MapContainer>
 
             {/* overlays */}
-            <div className="flex flex-col absolute top-0 bottom-0 left-0 right-0 pointer-events-none px-6 sm:px-15 py-4 sm:py-10 gap-4 items-center justify-center">
+            <div className="flex flex-col absolute inset-0 pointer-events-none bg-neutral-400/40 px-6 sm:px-15 py-4 sm:py-10 gap-4 items-center justify-center">
                 {/* title */}
-                <p className="relative size-fit min-h-fit max-w-fit text-[16vw] sm:text-[10vw] text-neutral-900 font-black geojournal-text
-                               drop-shadow-xl drop-shadow-neutral-100">
-                    geojournal!
-                    <span className="absolute top-[2vw] left-0 text-[#8ea9dd] text-[3.2vw] sm:text-[2vw] -rotate-6 geojournal-text">cryo's</span>
-                </p>
+                <div className="relative size-fit min-h-fit max-w-fit rounded-3xl pl-4 pr-3 backdrop-blur-xs">
+                    <p className="text-[16vw] sm:text-[10vw] text-neutral-900 font-black geojournal-text
+                               drop-shadow-xl drop-shadow-neutral-300">
+                        geojournal!
+                        <span className="absolute top-[2vw] left-0 text-[#8ea9dd] text-[3.2vw] sm:text-[2vw] -rotate-6 geojournal-text">cryo's</span>
+                    </p>
+                </div>
 
                 {/* desc and image box */}
                 <div className="flex flex-col sm:flex-row bg-background w-full h-fit max-h-full justify-around items-center 
