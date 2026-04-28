@@ -60,7 +60,7 @@ export default function HomeMapComponent() {
                             <span className="geojournal-text italic text-primary text-xl">geojournal!</span> is an interactive map-based journaling webapp, allowing users to create and edit geotagged notes and explore their notetaking patterns with modern geo-data visualization libraries.
                             <br/><br/><span className="italic">Create journal notes now!</span>
                         </p>
-                        <div className="flex flex-wrap w-full h-fit min-h-10 gap-4 sm:items-center">
+                        <div className="flex flex-wrap w-full h-fit min-h-10 gap-4 p-2 sm:items-center">
                             <a href={session ? "/map" : "signup"}
                                     className="flex fit-pill-button w-1/3 min-w-fit h-fit gap-x-2 gap-y-1 p-1.5 bg-primary hover:bg-secondary rounded-full transition-colors cursor-pointer
                                                 contrast-text drop-shadow-md drop-shadow-neutral-950">
@@ -69,8 +69,8 @@ export default function HomeMapComponent() {
                             <a href={"https://github.com/cryolins/geojournal"}
                                     className="flex flex-row fit-pill-button w-1/3 min-w-fit h-fit gap-2 p-1.5 bg-[#24292e] hover:bg-[#2b3137] rounded-full transition-colors cursor-pointer 
                                                 contrast-text drop-shadow-md drop-shadow-neutral-950">
-                                <FaGithub />
-                                <h6 className="font-semibold">Github ↗</h6>
+                                <FaGithub className="text-[#f9f4ec]" />
+                                <h6 className="font-semibold text-[#f9f4ec]">Github ↗</h6>
                             </a>
                         </div>
                     </div>

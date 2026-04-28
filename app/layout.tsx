@@ -4,6 +4,7 @@ import "./globals.css";
 import { SessionProvider } from "@/components/auth/SessionProvider";
 import { StorageListener } from "@/components/event-listeners";
 import { ImageKitProvider } from "@imagekit/next";
+import Image from "next/image";
 
 export const inter = Inter({
   variable: "--font-inter",
@@ -38,10 +39,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={``}>
+      <body className="relative">
         <SessionProvider>
           <ImageKitProvider urlEndpoint="https://ik.imagekit.io/icepei1397">
             <StorageListener/>
+            <div className="fixed inset-0 -z-10">
+              <Image src="/journal-images/cover-background.png" alt="scrapbook background" 
+              fill className="object-cover"/>
+            </div>
             {children}
             <div id="modal-root"></div>
           </ImageKitProvider>
