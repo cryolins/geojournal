@@ -199,13 +199,13 @@ export default function NoteMenu() {
 
     return (
         
-        <div className={`bg-backgroundlight w-full h-full transition-all ease-in-out duration-400
-                        ${currNote ? "max-w-sm" : "max-w-0"}`}
-            onClick={stopActionsAndPropagation}>{/* moving div container */}
+        <div className={`bg-backgroundlight w-sm sm:w-sm h-full max-w-full relative 
+                        transition-all ease-in-out duration-500 ${currNote ? "sm:min-w-sm sm:max-w-sm" : "sm:min-w-0 sm:max-w-0 sm:overflow-hidden"}`}
+            onClick={stopActionsAndPropagation}>{/* resizing div container */}
 
-            {/* content opacity transition container */}
-            <div className={`flex flex-col w-full h-full items-start gap-y-2 p-2 relative overflow-x-hidden overflow-y-auto
-                            transition-opacity ease-reciprocal duration-400 ${currNote ? "opacity-100" : "opacity-0"}`}>
+            {/* moving container */}
+            <div className={`relative sm:absolute flex flex-col w-full sm:w-sm h-full items-start gap-y-2 overflow-x-hidden overflow-y-auto sm:right-0
+                            transition-opacity ease-in-out duration-500 ${currNote ? "p-2" : ""}`}>
 
                 {/* key details sticky container */}
                 <div className="flex flex-col w-full px-2 py-1 mb-1 rounded-xl sticky top-1 bg-background contrast-text shadow-md shadow-background z-50" 
