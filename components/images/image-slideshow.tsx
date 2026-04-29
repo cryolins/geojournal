@@ -57,9 +57,9 @@ export function ImageSlideShow({ currImageLinks, setCurrImageLinks, hidden }: Im
         <div className="flex items-center justify-center w-full aspect-square bg-background my-8 relative" hidden={hidden}>
             {/* ^^^slideshow container */}
             <NextImage src={"/journal-images/brown-tape.png"} alt="tape for image frame" width={146} height={49} 
-                       className="absolute -top-4 -left-2"/>
+                       className="absolute -top-4 -left-2 z-40"/>
             <NextImage src={"/journal-images/brown-tape.png"} alt="tape for image frame" width={146} height={49} 
-                       className="absolute -bottom-4 -right-2"/>
+                       className="absolute -bottom-4 -right-2 z-40"/>
 
             {/*images slideshow*/}
             {currImageLinks.map((link, i) =>

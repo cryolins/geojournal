@@ -69,7 +69,7 @@ export default function HomeMapComponent() {
                                     bg-[url('/journal-images/lined-paper.png')] bg-repeat bg-local">
                         <div className="flex flex-col w-full h-fit sm:w-9/20 gap-4 sm:overflow-y-auto">
                             <p className="w-full contrast-text">
-                                <span className="geojournal-text italic text-primary text-xl">geojournal!</span> is an interactive map-based journaling webapp, allowing users to create and edit geotagged notes and explore their notetaking patterns with modern geo-data visualization libraries.
+                                <span className="geojournal-text italic text-good text-xl">geojournal!</span> is an interactive map-based journaling webapp, allowing users to create and edit geotagged notes and explore their notetaking patterns with modern geo-data visualization libraries.
                                 <br/><br/><span className="italic">Create journal notes now!</span>
                             </p>
                             <div className="flex flex-wrap w-full h-fit min-h-10 gap-4 p-2 sm:items-center">

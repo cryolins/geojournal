@@ -13,7 +13,7 @@
   --color-txt: var(--text);
   --color-good: var(--good);
   --color-bad: var(--bad);
-  --color-badmed: #c04d47;
+  --color-badmed: #e89a9a;
   --font-sans: var(--font-coming-soon);
 }
 
@@ -30,10 +30,10 @@
     --background: #e1d3c1;
     --backgroundlight: #f9f4ec;
     --field: #f3e9db;
-    --primary: #30cb5f;
-    --secondary: #57ea83;
-    --good: #2dad53;
-    --bad: #f26868;
+    --primary: #adc97e;
+    --secondary: #c0d49d;
+    --good: #779d39;
+    --bad: #d47777;
   }
 }
 
@@ -45,10 +45,10 @@
     --background: #e1d3c1;
     --backgroundlight: #f9f4ec;
     --field: #f3e9db;
-    --primary: #30cb5f;
-    --secondary: #57ea83;
-    --good: #2dad53;
-    --bad: #f26868;
+    --primary: #adc97e;
+    --secondary: #c0d49d;
+    --good: #779d39;
+    --bad: #d47777;
   }
 }
 
