@@ -1,7 +1,6 @@
 "use client";
+import L from 'leaflet';
 import { MapContainer, Marker, Popup, TileLayer, Tooltip, ZoomControl } from 'react-leaflet'
-import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
-import 'leaflet-defaulticon-compatibility';
 import { createContext, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { CategoryData, NoteData } from '@/interfaces/data';
 import { addNewNote, fetchCategories, fetchNotes, getUserLocation, hasDiffLocation } from './map-functions';
@@ -9,7 +8,6 @@ import MapHooks from './map-hooks';
 import { LatLng } from 'leaflet';
 import { LuPlus } from 'react-icons/lu';
 import NoteMenu from './note-menu';
-import { SettingsButton } from '../page-buttons';
 import { MapNavbar } from './map-navbar';
 
 // context for states
@@ -46,6 +44,15 @@ export const MapStatesContext = createContext<MapStatesContextType>({
     showAllNotes: true,
     setShowAllNotes: () => {}
 });
+
+export const pushpinIcon = new L.Icon({
+    iconUrl: "/journal-images/pushpin1.png",
+    iconRetinaUrl: "/journal-images/pushpin1.png",
+    iconSize: [17, 42],
+    iconAnchor: [9, 42],
+    popupAnchor: [0, -42],
+});
+
 
 export default function MapComponent() {
     // useStates
@@ -117,7 +124,7 @@ export default function MapComponent() {
                             .map((note) => (
                             <Marker 
                                 position={[note.location.coordinates[1], note.location.coordinates[0]]} 
-                                key={note._id}
+                                key={note._id} icon={pushpinIcon}
                                 eventHandlers={{
                                     click: () => {
                                         if (!isNoteMoving) {
@@ -133,7 +140,7 @@ export default function MapComponent() {
 
                         {/* "ghost note" for if current note has updated, unsaved position */}
                         {(currNote && hasDiffLocation(currNote, notes.get(currNote._id))) &&
-                            <Marker opacity={0.6} position={[currNote.location.coordinates[1], currNote.location.coordinates[0]]}>
+                            <Marker opacity={0.6} icon={pushpinIcon} position={[currNote.location.coordinates[1], currNote.location.coordinates[0]]}>
                                 <Tooltip>{`unsaved: ${currNote.title}`}</Tooltip>
                             </Marker>
                         }

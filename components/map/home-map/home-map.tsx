@@ -9,6 +9,7 @@ import { auth } from "@/auth-edge";
 import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import { FaGithub } from "react-icons/fa6";
+import { pushpinIcon } from "../map";
 
 export default function HomeMapComponent() {
     const [clickedCoords, setClickedCoords] = useState<LatLng>();
@@ -29,7 +30,7 @@ export default function HomeMapComponent() {
 
                 {/* marker at clicked location */}
                 {clickedCoords &&
-                    <Marker position={clickedCoords}>
+                    <Marker position={clickedCoords} icon={pushpinIcon}>
                         <Tooltip>New note: <strong>click me!</strong></Tooltip>
                         <Popup>
                             <a href="/map">
