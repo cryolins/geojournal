@@ -56,7 +56,7 @@ export function MapNavbar() {
             <div className="flex flex-row w-fit max-w-[calc(100%-4rem)] h-fit py-1 items-center gap-2 mr-1.5 shrink">
 
                 {/* container for navbar buttons */}
-                <div className={`flex flex-row w-fit h-fit max-h-12 items-center gap-2 p-1 overflow-y-hidden
+                <div className={`flex flex-row w-fit h-fit max-h-12 items-center gap-2 p-1 overflow-y-hidden hidden-scrollbar
                         transition-all ${ expandLeft ? "max-w-full overflow-x-auto" : "max-w-0 overflow-x-hidden" }`}>
                     
                     {/* border div for left line */}
@@ -70,7 +70,7 @@ export function MapNavbar() {
                         <button onClick={() => setShowNavCatDropdown(prev => !prev)}
                                 className="flex flex-row bg-border-frame items-center justify-center w-60 min-w-fit gap-3 p-1.5 h-10 rounded-full transition-colors">
                             <LuSlidersHorizontal className="contrast-text text-lg" />
-                            <p className="font-semibold contrast-text cursor-pointer text-lg">Categories</p>
+                            <p className="geojournal-text font-semibold contrast-text cursor-pointer text-xl">Categories</p>
                         </button>
                     </div>
 
@@ -79,7 +79,7 @@ export function MapNavbar() {
                         <a href="/visualize"
                                 className="flex flex-row bg-border-frame items-center justify-center w-fit min-w-fit gap-2 px-2.5 py-1 h-10 rounded-full transition-colors">
                             <LuHexagon className="contrast-text text-lg" />
-                            <p className="font-semibold contrast-text cursor-pointer text-lg">Visualize</p>
+                            <p className="geojournal-text font-semibold contrast-text cursor-pointer text-xl">Visualize</p>
                         </a>
                     </div>
 

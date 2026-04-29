@@ -14,7 +14,7 @@
   --color-good: var(--good);
   --color-bad: var(--bad);
   --color-badmed: #c04d47;
-  --font-sans: var(--font-public-sans);
+  --font-sans: var(--font-coming-soon);
 }
 
 @theme {
@@ -33,10 +33,26 @@
     --primary: #30cb5f;
     --secondary: #57ea83;
     --good: #2dad53;
-    --bad: #a22a24;
+    --bad: #f26868;
   }
 }
+
+/* force light mode to align with image backgrounds */
 @media (prefers-color-scheme: dark) {
+  :root {
+    --text: #69553b;
+    --foreground: #69553b;
+    --background: #e1d3c1;
+    --backgroundlight: #f9f4ec;
+    --field: #f3e9db;
+    --primary: #30cb5f;
+    --secondary: #57ea83;
+    --good: #2dad53;
+    --bad: #f26868;
+  }
+}
+
+/* @media (prefers-color-scheme: dark) {
   :root {
     --text: #f9f4ec;
     --foreground: #b8a48b;
@@ -48,22 +64,22 @@
     --good: #57ea83;
     --bad: #f26868;
   }
-}
+} */
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Public Sans';
+  font-family: 'Coming Soon';
   font-weight: 400;
 }
 
 h1, h2, h3, h4, h5 {
-  font-family: 'Inter';
+  font-family: 'Dangrek';
   font-weight: 700;
 }
 
 div, p {
-  font-family: 'Public Sans';
+  font-family: 'Coming Soon';
 }
 
 textarea {
@@ -135,11 +151,38 @@ button {
   appearance: none;
 }
 
+/* loading rocking animation */
+@keyframes rocking {
+  0% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+  100% { transform: rotate(-5deg); }
+}
+
+.loading-msg {
+  max-width: 80vw;
+  max-height: 80vh;
+  background-color: var(--background);
+  border: 8px solid var(--foreground);
+  border-radius: var(--radius-4xl);
+  padding-inline: 2rem;
+  padding-block: 1rem;
+  display: inline-block;
+  animation: rocking 2s ease-in-out infinite;
+}
+
 /* scrollbars */
 .fg-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: var(--color-foreground) transparent; /* thumb color track color */
   overflow-y: scroll; /* Ensures the element is scrollable */
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hidden-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* width */
@@ -151,13 +194,18 @@ button {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.1);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: var(--color-foreground);
   border-radius: 5px;
+}
+
+/* Arrows */
+::-webkit-scrollbar-button {
+    display: none;
 }
 
 html {font-size: 100%;} /* 16px */
@@ -192,9 +240,9 @@ small {font-size: 0.750rem; /* 12px */}
 
 @utility contrast-text {
   color: var(--color-neutral-900);
-  @media (prefers-color-scheme: dark) {
+  /* @media (prefers-color-scheme: dark) {
     color: #f3e9db;
-  }
+  } */
 }
 
 @utility fit-pill-button {

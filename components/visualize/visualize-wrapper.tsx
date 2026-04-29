@@ -40,10 +40,9 @@ export default function VisualizeClientWrapper() {
     if (!mounted || isPageLoading || !initialCoords || visData == null) {
         return (
             <div className="flex flex-col sm:flex-row w-full h-screen items-center justify-center gap-3">
-                <h1 className="contrast-text font-bold">
+                <h1 className="contrast-text font-bold loading-msg">
                     Loading visualizer map...
                 </h1>
-                <div className="size-17 min-w-17 min-h-17 border-solid border-8 border-foreground border-b-transparent rounded-full animate-spin" />
             </div>
         );
     }

@@ -205,10 +205,12 @@ export default function NoteMenu() {
 
             {/* moving container */}
             <div className={`relative sm:absolute flex flex-col w-full sm:w-sm h-full items-start gap-y-2 overflow-x-hidden overflow-y-auto sm:right-0
-                            transition-opacity ease-in-out duration-500 ${currNote ? "p-2" : ""}`}>
+                            transition-opacity ease-in-out duration-500 ${currNote ? "p-2" : ""}
+                            bg-[url('/journal-images/lined-paper.png')] bg-repeat bg-local`}>
 
-                {/* key details sticky container */}
-                <div className="flex flex-col w-full px-2 py-1 mb-1 rounded-xl sticky top-1 bg-background contrast-text shadow-md shadow-background z-50" 
+                {/* key details container */}
+                <div className="flex flex-col w-full px-2 pt-12 pb-3 mb-1 relative top-0 contrast-text shadow-md shadow-background z-50
+                                bg-[url('/journal-images/brown-sticky-note.png')] bg-cover" 
                         hidden={!currNote} onClick={stopActionsAndPropagation}>
                     
                     {/* title and X button */}

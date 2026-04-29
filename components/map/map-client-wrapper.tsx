@@ -12,7 +12,7 @@ function LoadingComponent() {
 
     return(
         <div className="flex w-full h-full items-center justify-center">
-            <h1 className="contrast-text font-bold">Loading map...</h1>
+            <h1 className="contrast-text font-bold loading-msg">Loading map...</h1>
         </div>
     );
     

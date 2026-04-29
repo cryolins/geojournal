@@ -32,10 +32,10 @@ export function Profile({ userId }: { userId: string }) {
     return (
         <div className="flex flex-col h-fit w-full sm:w-sm items-center sm:items-start gap-y-8">
             <a href="/map">
-                <h4 className="text-center sm:text-left font-semibold w-fit h-auto text-primary hover:underline">{"<"} Back to Map</h4>
+                <h4 className="text-center sm:text-left font-semibold w-fit h-auto text-foreground hover:underline">{"<"} Back to Map</h4>
             </a>
             <h1 className="text-center sm:text-left contrast-text font-bold">Account Settings</h1>
-            <div className="w-3/5 max-w-3xs rounded-full aspect-square relative">
+            <div className="w-3/5 max-w-3xs rounded-full aspect-square relative outline-8 outline-foreground outline-solid">
                 <LuUserRound className="w-full h-full rounded-full p-4 contrast-text"/>
                 <Image className="absolute top-0 bottom-0 left-0 right-0 aspect-square rounded-full object-cover"
                 src={imageLink} alt={""} width={400} height={400} responsive={false}

@@ -80,10 +80,9 @@ export default function MapComponent() {
     if (!initialCoords || isPageLoading) {
         return (
             <div className="flex flex-col sm:flex-row w-full h-full items-center justify-center gap-3">
-                <h1 className="contrast-text font-bold">
+                <h1 className="contrast-text font-bold loading-msg">
                     Loading map details...
                 </h1>
-                <div className="size-17 min-w-17 min-h-17 border-solid border-8 border-foreground border-b-transparent rounded-full animate-spin" />
             </div>
         );
     }
@@ -143,7 +142,7 @@ export default function MapComponent() {
                         {clickedCoords && 
                             <Popup position={clickedCoords}>
                                 <div className="flex flex-row items-center justify-center gap-x-3 contrast-text h-fit">
-                                    <div className="font-public-sans">
+                                    <div>
                                         {clickedCoords.lat.toFixed(6)},<br/>{clickedCoords.lng.toFixed(6)}
                                     </div>
                                     <button onClick={(e) => addNewNote(setCurrNote, clickedCoords)} 

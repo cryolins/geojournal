@@ -1,4 +1,5 @@
 import { Image, UploadResponse } from "@imagekit/next";
+import NextImage from "next/image";
 import { Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
 import { UploadMenu } from "./image-upload";
 import { MapStatesContext } from "../map/map";
@@ -53,8 +54,12 @@ export function ImageSlideShow({ currImageLinks, setCurrImageLinks, hidden }: Im
     }, [currNote?._id]);
 
     return (
-        <div className="flex items-center justify-center w-full aspect-square bg-background relative" hidden={hidden}>
+        <div className="flex items-center justify-center w-full aspect-square bg-background my-8 relative" hidden={hidden}>
             {/* ^^^slideshow container */}
+            <NextImage src={"/journal-images/brown-tape.png"} alt="tape for image frame" width={146} height={49} 
+                       className="absolute -top-4 -left-2"/>
+            <NextImage src={"/journal-images/brown-tape.png"} alt="tape for image frame" width={146} height={49} 
+                       className="absolute -bottom-4 -right-2"/>
 
             {/*images slideshow*/}
             {currImageLinks.map((link, i) =>
@@ -76,29 +81,29 @@ export function ImageSlideShow({ currImageLinks, setCurrImageLinks, hidden }: Im
                 {currNote?._id ? 
                     <UploadMenu currImageLinks={currImageLinks} handleUploadSuccess={handleUploadSuccess} resetMsgDependencies={[slideNum]}
                             folderPathFromUser={`${currNote?._id ?? ""}`}/>
-                    : <div className="flex flex-col h-fit max-size-full gap-1 m-1 input-field">
-                        <h5 className="text-neutral-900 font-semibold text-center">Please create the note to add images</h5>
+                    : <div className="flex flex-col h-fit max-w-3/4 max-h-full gap-1 m-1 input-field">
+                        <p className="text-neutral-900 text-xl text-center">Please create the note to add images</p>
                     </div>
                 
                 }
-                <p className="absolute bottom-0.5 p-1 text-center bg-neutral-900/60 contrast-text">
+                <p className="absolute bottom-0.5 p-1 text-center bg-stone-400/60 contrast-text">
                     ++/{currImageLinks.length}
                 </p>
             </div>
 
             {/* delete, forward, and back buttons */}
             <button className="absolute top-1 right-1 w-7 aspect-square rounded-full flex items-center justify-center p-1 
-                            bg-neutral-900/60 hover:bg-neutral-600/60 transition-colors contrast-text"
+                            bg-stone-400/60 hover:bg-stone-500/60 transition-colors contrast-text"
                     onClick={() => setShowDeleteModal(true)} hidden={slideNum === currImageLinks.length}>
                 <LuTrash2 className="size-full" />
             </button>
             <button className="absolute left-1 w-10 aspect-square rounded-full flex items-center justify-center p-1 
-                            bg-neutral-900/60 hover:bg-neutral-600/60 transition-colors contrast-text"
+                            bg-stone-400/60 hover:bg-stone-500/60 transition-colors contrast-text"
                     onClick={handlePrevNav}>
                 <LuChevronLeft className="size-full" />
             </button>
             <button className="absolute right-1 w-10 aspect-square rounded-full flex items-center justify-center p-1 
-                            bg-neutral-900/60 hover:bg-neutral-600/60 transition-colors contrast-text"
+                            bg-stone-400/60 hover:bg-stone-500/60 transition-colors contrast-text"
                     onClick={handleNextNav}>
                 <LuChevronRight className="size-full" />
             </button>
