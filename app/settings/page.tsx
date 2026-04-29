@@ -15,8 +15,8 @@ export default async function Settings() {
 
     return (
         <div className="flex flex-col sm:flex-row min-h-screen min-w-full 
-                        items-center sm:items-start justify-center p-6 sm:p-12 gap-8 sm:gap-28
-                        bg-[url('/journal-images/cover-background.png')] bg-cover bg-local">
+                        items-center sm:items-start justify-center p-6 sm:p-12 gap-8 sm:gap:16 md:gap-28
+                        transition-all duration-500 bg-[url('/journal-images/cover-background.png')] bg-cover bg-local">
             <Profile userId={id}/>
             <EditForm username={username} name={name} email={email}/>
         </div>

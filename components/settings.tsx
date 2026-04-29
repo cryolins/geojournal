@@ -137,7 +137,8 @@ export function EditForm({ username, name, email }: EditFormProps) {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-fit w-full gap-y-6 items-center sm:items-start">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-fit w-full gap-y-6 items-center sm:items-start p-6
+            rounded-2xl bg-[url('/journal-images/lined-paper.png')] bg-repeat">
             <h2 className="font-bold">Edit Details</h2>
             <div className="flex flex-col h-fit w-full gap-y-4">
                 <div className="flex flex-col w-full gap-y-1">

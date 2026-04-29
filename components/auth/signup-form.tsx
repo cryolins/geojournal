@@ -6,6 +6,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { APIResponseData } from "@/interfaces/responses";
 import { UserData } from "@/interfaces/data";
+import Image from "next/image";
 
 export default function SignupForm() {
     const { register, handleSubmit, watch, formState: { isSubmitting, errors } } = useForm<SignupInput>();
@@ -67,9 +68,15 @@ export default function SignupForm() {
     };
 
     return(
-        <div className="flex min-h-screen min-w-screen items-center justify-center bg-background px-4">
-            <div className="flex flex-col w-lg h-auto p-8 gap-y-6 items-center bg-backgroundlight rounded-2xl drop-shadow">
-                <h3 className="flex flex-row contrast-text">
+        <div className="flex min-h-screen min-w-screen items-center justify-center px-4">
+            <div className="flex flex-col w-lg h-auto p-8 gap-y-6 items-center rounded-2xl drop-shadow
+                            relative bg-[url('/journal-images/lined-paper.png')] bg-repeat">
+                <Image src={"/journal-images/brown-tape-alt.png"} alt="tape for image frame" width={145} height={50} 
+                            className="absolute -top-4 -right-8 z-10 saturate-25 brightness-150"/>
+                <Image src={"/journal-images/brown-tape-alt.png"} alt="tape for image frame" width={145} height={50} 
+                            className="absolute -bottom-4 -left-8 z-10 saturate-25 brightness-150"/>
+
+                <h3 className="flex flex-row contrast-text gap-4">
                     Create Account for
                     <a href="/"
                             className="flex items-center justify-center w-fit ml-2">

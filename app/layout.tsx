@@ -45,7 +45,11 @@ export default function RootLayout({
             <StorageListener/>
             <div className="fixed inset-0 -z-10">
               <Image src="/journal-images/cover-background.png" alt="scrapbook background" 
-              fill className="object-cover"/>
+              fill className="object-cover -z-9"/>
+              <Image src="/journal-images/paper-corner.png" alt="scrapbook background" 
+              width={494} height={212} className="absolute top-0 left-0 -z-8"/>
+              <Image src="/journal-images/paper-corner.png" alt="scrapbook background" 
+              width={494} height={212} className="absolute bottom-0 right-0 -z-8 rotate-180"/>
             </div>
             {children}
             <div id="modal-root"></div>
