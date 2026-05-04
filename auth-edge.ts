@@ -7,6 +7,7 @@ export const authOptions: NextAuthConfig = {
     pages: {
         signIn: "/login",
     },
+    trustHost: true,
     providers: []
 }
 

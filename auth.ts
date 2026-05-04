@@ -11,6 +11,7 @@ interface ExpectedCredentials {
 }
 
 export const authOptions: NextAuthConfig = {
+    trustHost: true,
     providers: [
         CredentialsProvider({
             name: "Credentials",
