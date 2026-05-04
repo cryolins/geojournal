@@ -1,0 +1,1 @@
+export const VALID_RESOLUTIONS = [9, 8, 7];

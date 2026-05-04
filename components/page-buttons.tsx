@@ -14,7 +14,7 @@ export function SettingsButton() {
 export function NotesMapButton() {
     return (
         <a className="w-12 aspect-square bg-border-frame transition-colors rounded-full p-1.75 m-1 
-                            drop-shadow-md drop-shadow-background" href="/map">
+                      shrink-0 grow-0 drop-shadow-md drop-shadow-background" href="/map">
             <LuMapPinned className="w-full h-full"/>
         </a>
     );

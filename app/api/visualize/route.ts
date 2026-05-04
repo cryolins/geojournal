@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
 
         // search/query params
         const searchParams = req.nextUrl.searchParams;
-        const h3Res = parseInt(searchParams.get("swLat") ?? "8");
+        const h3Res = parseInt(searchParams.get("h3res") ?? "8");
 
         // connect to db
         await connectDB();

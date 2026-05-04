@@ -6,6 +6,8 @@ import { H3HexData } from "@/interfaces/data";
 import DeckGL, { CompassWidget, MapViewState, PickingInfo, ZoomWidget } from "deck.gl";
 import Map from "react-map-gl/maplibre";
 import { _GeocoderWidget } from "@deck.gl/widgets";
+import { VALID_RESOLUTIONS } from "./visualize-config";
+import { useState } from "react";
 
 function getRGBAColor(hexColor: string, lastActivity: string): [number, number, number, number] {
     const r = parseInt(hexColor.slice(1, 3), 16);
@@ -18,12 +20,13 @@ function getRGBAColor(hexColor: string, lastActivity: string): [number, number, 
 }
 
 interface DataMapProps{
-    data: H3HexData[]
+    dataList: H3HexData[][]
     initialCoords: [number, number] // [lat, lng] format
+    resChoice: number // number for h3 resolution
 }
 
-export default function VisualizeMap({ data, initialCoords }: DataMapProps) {
-    console.log(data);
+export default function VisualizeMap({ dataList, initialCoords, resChoice }: DataMapProps) {
+    // console.log(dataList);
     // initial view state based on given initialCoords
     const initialViewState: MapViewState = {
         latitude: initialCoords[0],
@@ -36,12 +39,15 @@ export default function VisualizeMap({ data, initialCoords }: DataMapProps) {
     };
 
     // h3hexagon layer
-    const layers = [
+    const layers = VALID_RESOLUTIONS.map((res, i) =>
         new H3HexagonLayer<H3HexData>({
             // basic setup
-            id: "notes-vis-hex",
-            data,
+            id: `notes-vis-hex-${res}`,
+            data: dataList[i],
             getHexagon: (h) => h._id,
+
+            // visibility based on the state
+            visible: (i==resChoice),
 
             // elevation of hexagons
             extruded: true,
@@ -62,7 +68,7 @@ export default function VisualizeMap({ data, initialCoords }: DataMapProps) {
                 specularColor: [168, 168, 168]
             }
         })
-    ];
+    )
 
     const getTooltips = (pi: PickingInfo<H3HexData>) => {
         if (!pi.object) {return null}
