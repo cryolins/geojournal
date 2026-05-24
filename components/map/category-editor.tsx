@@ -41,7 +41,7 @@ export function CategoryEditor({ categoryId, showEditor, setShowEditor }: Catego
                 };
         // console.log(payload);
 
-        const methodType = currCategory._id ? "PUT" : "POST";
+        const methodType = currCategory._id ? "PATCH" : "POST";
 
         try {
             const res = await fetch(`/api/categories/${currCategory._id}`, {

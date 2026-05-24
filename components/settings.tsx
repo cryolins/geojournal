@@ -109,10 +109,10 @@ export function EditForm({ username, name, email }: EditFormProps) {
         const { username, name, email, oldPassword } = inp;
         const newPassword = inp.newPassword || undefined; // if falsy, make undefined
 
-        // try sending to PUT endpoint
+        // try sending to PATCH endpoint
         try {
             const res = await fetch("/api/users", {
-                method: "PUT",
+                method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     username, name, email, newPassword, oldPassword

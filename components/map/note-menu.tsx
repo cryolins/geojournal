@@ -43,7 +43,7 @@ export default function NoteMenu() {
                     lat: currNote.location.coordinates[1],
                 };
 
-        const methodType = currNote._id ? "PUT" : "POST";
+        const methodType = currNote._id ? "PATCH" : "POST";
 
         try {
             const res = await fetch(`/api/notes/${currNote._id}`, {

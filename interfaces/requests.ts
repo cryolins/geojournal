@@ -10,7 +10,7 @@ export const noteRequestSchema = z.object({
     lat: z.number().min(-90, "invalid latitude").max(90, "invalid latitude")
 });
 
-// for note api's PUT
+// for note api's PATCH
 export const optionalNoteRequestSchema = z.object({
     title: z.string().max(60, "title too long (>60 chars)").nullable().optional(),
     body: z.string().nullable().optional(),
@@ -26,7 +26,7 @@ export const categoryRequestSchema = z.object({
     color: z.string().regex(/^#([0-9a-f]{3}){1,2}$/i, "Invalid hex code").optional()
 });
 
-// for category api's PUT
+// for category api's PATCH
 export const optionalCategoryRequestSchema = z.object({
     name: z.string().max(30, "category name too long (>30 chars)").optional(),
     color: z.string().regex(/^#([0-9a-f]{3}){1,2}$/i, "Invalid hex code").optional()
@@ -39,7 +39,7 @@ export const signupRequestSchema = z.object({
     password: z.string().min(8),
 });
 
-// for user api's PUT
+// for user api's PATCH
 export const editUserRequestSchema = z.object({
     username: z.string().min(3).max(20).regex(/^[A-Za-z0-9._-]+$/i).optional(),
     name: z.string().optional(),

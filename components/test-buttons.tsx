@@ -15,7 +15,7 @@ export function APIButton () {
                 color: "#1e1e1E"
             };
             const res = await fetch("/api/visualize", {
-                method: "PUT",
+                method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
             });
